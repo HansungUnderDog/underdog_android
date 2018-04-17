@@ -1,6 +1,8 @@
 package cse.underdog.org.underdog_client.schedule;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +28,7 @@ import cse.underdog.org.underdog_client.network.NetworkService;
 import cse.underdog.org.underdog_client.schedule.calendar.OneDayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SaturdayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
+import cse.underdog.org.underdog_client.speech.SttService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,47 +37,37 @@ public class ScheduleActivity extends AppCompatActivity {
 
     static CalendarDay selectedDay = null;
     static boolean Selected;
-/*
-    ArrayAdapter<String> adapter;
-    ArrayList<String> arrayList;
-    ArrayList<DayData> Day_data;
+    SttService stt;
+    Intent i;
+    SpeechRecognizer mRecognizer;
+    String result;
 
-    EditText edit_schedule;
-    ListView schedule_List;
-    TimePicker timePicker;
-    String DATE;
-
-    int year;
-    int month;
-    int day;
-    int hour;
-    int min;
-    String AMPM = "";
-    String text_schedule = "";
-    */
     @BindView(R.id.calendarView)
     MaterialCalendarView calendar;
 
     @BindView(R.id.recyclerView)
     RecyclerView schedules;
 
-//    RecyclerView.Adapter adapter;
-    RecyclerView.LayoutManager layoutManager;
-
     private NetworkService service;
 
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
 
+    public void setStt() {
+         stt = SttService.getInstance();
+         i = SttService.getIntent();
+         stt.setStt(getPackageName());
+         mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+         mRecognizer.setRecognitionListener(stt.getListener());
+         // mRecognizer.startListening(i); // start sttService
+        //  String result = stt.getResult;
+    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+    public void setRecyclerView() {
 
-        ButterKnife.bind(this);
-        service = ApplicationController.getInstance().getNetworkService();
+    }
 
+    public void setCalendar() {
         calendar.state().edit() //materialCalendarView 세팅 : 달력의 시작과 끝을 지정
                 .setFirstDayOfWeek(Calendar.SUNDAY)
                 .setMinimumDate(CalendarDay.from(2010, 0, 1))
@@ -87,31 +80,22 @@ public class ScheduleActivity extends AppCompatActivity {
                 new SaturdayDecorator(),
                 new OneDayDecorator());
 
-
-        Call<ScheduleResult> getSchedule = service.getSchedule();
+        /*Call<ScheduleResult> getSchedule = service.getSchedule(); // server와 connect
 
         getSchedule.enqueue(new Callback<ScheduleResult>() {
             @Override
             public void onResponse(Call<ScheduleResult> call, Response<ScheduleResult> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getBaseContext(), "response success" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "response successed" , Toast.LENGTH_SHORT).show();
                 }
+                else Toast.makeText(getBaseContext(), "response failed" , Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<ScheduleResult> call, Throwable t) {
 
             }
-        });
-
-
-
-
-
-
-
-
-
+        });*/
 
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -138,30 +122,24 @@ public class ScheduleActivity extends AppCompatActivity {
                 }
                 else day = String.valueOf(selectedDay.getDay());
 
-                String selectedDate = year+"-"+month+"-"+day;
+                String selectedDate = year+"-"+month+"-"+day; // yyyy-mm-dd
 
                 Toast.makeText(getBaseContext(), selectedDate , Toast.LENGTH_SHORT).show();
-
-                /*
-                DATE = selectedDay.toString();
-                String[] parsedDATA = DATE.split("[{]");
-                parsedDATA = parsedDATA[1].split("[}]");
-                parsedDATA = parsedDATA[0].split("-");
-                year = Integer.parseInt(parsedDATA[0]);
-                month = Integer.parseInt(parsedDATA[1])+1;
-                day = Integer.parseInt(parsedDATA[2]);
-
-                arrayList = new ArrayList<String>();
-
-                for(int i=0; i<Day_data.size(); i++){
-                    if(Day_data.get(i).getDay() == day){
-                        arrayList.add(Day_data.get(i).getText_schedule());
-                    }
-                }
-                updateScheduleList();
-                */
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_schedule);
+
+        ButterKnife.bind(this);
+        service = ApplicationController.getInstance().getNetworkService();
+
+        setCalendar();
+        setRecyclerView();
 
     }
+
 }
