@@ -3,6 +3,7 @@ package cse.underdog.org.underdog_client.network;
 
 import cse.underdog.org.underdog_client.login.LoginInfo;
 import cse.underdog.org.underdog_client.login.LoginResult;
+import cse.underdog.org.underdog_client.schedule.ScheduleResult;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,7 +15,7 @@ public interface NetworkService {
     Call<LoginResult> checkLogin(@Body LoginInfo loginInfo);
 
     @GET("/schedule/showschedule")
-    Call<> getSchedule();
+    Call<ScheduleResult> getSchedule();
 
    /* @POST("/logout/logout")
     Call<LogoutResult> logout();

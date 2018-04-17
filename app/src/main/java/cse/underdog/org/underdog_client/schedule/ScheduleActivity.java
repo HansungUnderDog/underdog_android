@@ -26,15 +26,18 @@ import cse.underdog.org.underdog_client.network.NetworkService;
 import cse.underdog.org.underdog_client.schedule.calendar.OneDayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SaturdayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ScheduleActivity extends AppCompatActivity {
-    //
+
     static CalendarDay selectedDay = null;
     static boolean Selected;
-
+/*
     ArrayAdapter<String> adapter;
     ArrayList<String> arrayList;
- //   ArrayList<DayData> Day_data;
+    ArrayList<DayData> Day_data;
 
     EditText edit_schedule;
     ListView schedule_List;
@@ -48,7 +51,7 @@ public class ScheduleActivity extends AppCompatActivity {
     int min;
     String AMPM = "";
     String text_schedule = "";
-    //
+    */
     @BindView(R.id.calendarView)
     MaterialCalendarView calendar;
 
@@ -83,6 +86,32 @@ public class ScheduleActivity extends AppCompatActivity {
                 new SundayDecorator(),
                 new SaturdayDecorator(),
                 new OneDayDecorator());
+
+
+        Call<ScheduleResult> getSchedule = service.getSchedule();
+
+        getSchedule.enqueue(new Callback<ScheduleResult>() {
+            @Override
+            public void onResponse(Call<ScheduleResult> call, Response<ScheduleResult> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), "response success" , Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ScheduleResult> call, Throwable t) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+
 
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
