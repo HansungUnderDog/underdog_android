@@ -2,9 +2,6 @@ package cse.underdog.org.underdog_client;
 
 import cse.underdog.org.underdog_client.login.UserInfo;
 
-/**
- * Created by SungSoo on 2017-07-01.
- */
 
 public class LoginUserInfo {
     private static LoginUserInfo instance = null;

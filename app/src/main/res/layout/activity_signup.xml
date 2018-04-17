@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_marginTop="30.5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edittext_signup_email"
+            android:layout_width="200dp"
+            android:layout_height="45.15dp"
+            android:hint="email"
+            android:inputType="textEmailAddress" />
+
+        <Button
+            android:id="@+id/button_signup_email"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="중복확인" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="30.5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edittext_signup_nickname"
+            android:layout_width="200dp"
+            android:layout_height="45.15dp"
+            android:hint="nickname"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/button_signup_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="중복확인" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="30.5dp"
+        android:layout_width="267.2dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edittext_signup_password"
+            android:layout_width="match_parent"
+            android:layout_height="45.15dp"
+            android:layout_marginLeft="80dp"
+            android:background="@null"
+            android:ems="8"
+            android:hint="PW"
+            android:inputType="textPassword"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="30.5dp"
+        android:layout_width="267.2dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edittext_signup_passwordre"
+            android:layout_width="match_parent"
+            android:layout_height="45.15dp"
+            android:layout_marginLeft="80dp"
+            android:background="@null"
+            android:ems="8"
+            android:hint="PW확인"
+            android:inputType="textPassword"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/button_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="41.5dp"
+        android:text="회원가입"
+        android:textColor="#FFFFFF" />
+
+
+</LinearLayout>
