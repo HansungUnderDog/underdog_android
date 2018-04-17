@@ -14,13 +14,8 @@ public interface NetworkService {
     @POST("/login/signin")
     Call<LoginResult> checkLogin(@Body LoginInfo loginInfo);
 
-<<<<<<< HEAD
-    /*@GET("/schedule/showschedule")
-    Call<> getSchedule();*/
-=======
     @GET("/schedule/showschedule")
     Call<ScheduleResult> getSchedule();
->>>>>>> d11e152c8de84eceb37bc1387ab50a7c98894ce8
 
    /* @POST("/logout/logout")
     Call<LogoutResult> logout();
