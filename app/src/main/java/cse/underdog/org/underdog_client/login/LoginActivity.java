@@ -1,6 +1,10 @@
 package cse.underdog.org.underdog_client.login;
 
 
+<<<<<<< HEAD
+import android.content.Intent;
+=======
+>>>>>>> 366e4178f47d8c3b0124601eac0ab3b70eb1c2ab
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +17,7 @@ import butterknife.ButterKnife;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.application.ApplicationController;
 import cse.underdog.org.underdog_client.network.NetworkService;
+import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,10 +56,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*imageButtonSignup.setOnClickListener({
+        imageButtonSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), SignupActivity.class);
                 startActivity(intent);
-        });*/
+            }
+        });
 
 
 
@@ -89,61 +97,30 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
                 if (response.isSuccessful()) {
+                    System.out.println("response.body" + response.body().stat);
                     if (response.body().stat.equals("success")) {
-                        //로그인 성공 시
-                        UserInfo user = new UserInfo();
-                        System.out.println(response.body().data);
-                        Toast.makeText(getBaseContext(), "로그인 성공" + response.body().data.nickname, Toast.LENGTH_SHORT).show();
-                        /*LoginResult userObj = new LoginResult(response.body().result, response.body().stat);
-                        LoginUserInfo.getInstance().setUserInfo(userObj.result);
-                        SharedPreferences userInfo;
-                        userInfo = getSharedPreferences("user", MODE_PRIVATE);
-
-                        SharedPreferences.Editor editor = userInfo.edit();
-
-                        //sharedPreferences에 유저정보 객체로 저장
-                        if (!isAuto) {
-                            editor.putString("email", editTextEmail.getText().toString());
-                            editor.putString("pwd", editTextPassword.getText().toString());
-                            editor.putInt("user_id", userObj.result.user_id);
-                            editor.putString("nickname", userObj.result.nickname);
-                            editor.putString("cookie", "" + response.headers().size());
-                        }
-                        Log.d(TAG, response.headers().toString());
-                        Log.d(TAG, editTextEmail.getText().toString());
-                        editor.commit();
-                        *//*Intent intent = new Intent(getBaseContext(), MainActivity.class);
-
-                        //activity stack 비우고 새로 시작하기
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-                            //안드로이드 버전이 진저브레드가 아니면,
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        } else {
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        }*//*
-
+                        System.out.println("hihihihi");
+                        Intent intent = new Intent(getBaseContext(), TimelineActivity.class);
                         startActivity(intent);
-                        finish();*/
-                    } else if (response.body().stat.equals("nonidfail")) {
-                        //비밀번호 오류
-                        Toast.makeText(getBaseContext(), "비밀번호가 일치하지 않습니다.다시 한번 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getBaseContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
+                    /*System.out.println("failfaifli");
+                    System.out.println(response.body());
+                    if (response.body().stat.equals("nonidfail")) {
+                        Toast.makeText(getBaseContext(), "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
                     } else if (response.body().stat.equals("pwdfail")) {
-                        //비밀번호 오류
-                        Toast.makeText(getBaseContext(), "회원가입되지 않은 회원 정보입니다. 회원 가입을 해주세요.", Toast.LENGTH_SHORT).show();
-                    } else if (response.body().stat.equals("fail")) {
-                        //비밀번호 오류
-                        Toast.makeText(getBaseContext(), "이메일 또는 비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-                    }/* else if (response.body().stat.equals("5")) {
-                        //비밀번호 오류
-                        Toast.makeText(getBaseContext(), "서버오류", Toast.LENGTH_SHORT).show();
-                    }*/
-
+                        Toast.makeText(getBaseContext(), "회원가입되지 않은 회원 정보입니다.", Toast.LENGTH_SHORT).show();
+                    } */
                 }
             }
 
+
+
             @Override
             public void onFailure(Call<LoginResult> call, Throwable t) {
-
+                Toast.makeText(getBaseContext(), "통신 에러", Toast.LENGTH_SHORT).show();
+                Log.i("fail", t.getMessage());
             }
         });
     }
