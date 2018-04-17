@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.timeline.TimelineActivity;
+<<<<<<< HEAD
 
 /*public class CalendarFragment extends Fragment {
     @Override
@@ -19,6 +20,8 @@ import cse.underdog.org.underdog_client.timeline.TimelineActivity;
         startActivity(intent);
     }
 }*/
+=======
+>>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
 
 public class CalendarFragment extends Fragment {
     @Nullable
