@@ -21,7 +21,9 @@
         </activity>
         <activity
             android:name=".login.LoginActivity"
-            android:label="login"/>
+            android:label="login" />
+        <activity android:name=".schedule.schedule" />
+        <activity android:name=".schedule.ScheduleActivity" />
     </application>
 
 </manifest>
