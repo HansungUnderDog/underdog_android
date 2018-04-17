@@ -1,12 +1,10 @@
 package cse.underdog.org.underdog_client.login;
 
 
-<<<<<<< HEAD
 import android.content.Intent;
-=======
->>>>>>> 366e4178f47d8c3b0124601eac0ab3b70eb1c2ab
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

@@ -26,9 +26,18 @@
         <activity
             android:name=".login.SignupActivity"
             android:label="signup" />
-        <activity android:name=".timeline.TimelineActivity"
-            android:label="timeline"/>
-        <activity android:name=".schedule.ScheduleActivity" />
+        <activity
+            android:name=".timeline.TimelineActivity"
+            android:label="timeline" />
+        <activity
+            android:name=".schedule.ScheduleActivity"
+            android:label="schedule"/>
+        <activity
+            android:name=".memo.MemoActivity"
+            android:label="memo"/>
+        <activity
+            android:name=".etc.EtcActivity"
+            android:label="etc"/>
     </application>
 
 </manifest>

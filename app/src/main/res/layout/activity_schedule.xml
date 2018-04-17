@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".schedule.schedule"
+    tools:context=".schedule.ScheduleActivity"
     android:id="@+id/main_schedule"
     android:orientation="vertical">
 
@@ -42,6 +42,31 @@
             android:id="@+id/recyclerView"/>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tabLayout">
+
+        </android.support.v4.view.ViewPager>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:tabIndicatorHeight="0dp">
+
+        </android.support.design.widget.TabLayout>
+
+    </RelativeLayout>
+
+
 
 
 </LinearLayout>

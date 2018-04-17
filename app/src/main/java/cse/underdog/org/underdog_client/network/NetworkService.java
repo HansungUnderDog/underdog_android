@@ -13,8 +13,8 @@ public interface NetworkService {
     @POST("/login/signin")
     Call<LoginResult> checkLogin(@Body LoginInfo loginInfo);
 
-    @GET("/schedule/showschedule")
-    Call<> getSchedule();
+    /*@GET("/schedule/showschedule")
+    Call<> getSchedule();*/
 
    /* @POST("/logout/logout")
     Call<LogoutResult> logout();
