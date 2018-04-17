@@ -33,5 +33,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.0.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.0.1'
     implementation 'com.android.support:recyclerview-v7:27.1.0'
+<<<<<<< HEAD
     implementation 'com.android.support:design:27.1.0'
+=======
+    implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+>>>>>>> 366e4178f47d8c3b0124601eac0ab3b70eb1c2ab
 }
