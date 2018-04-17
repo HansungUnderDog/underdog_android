@@ -1,9 +1,11 @@
 package cse.underdog.org.underdog_client.schedule;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,21 +19,24 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.application.ApplicationController;
+import cse.underdog.org.underdog_client.login.LoginInfo;
 import cse.underdog.org.underdog_client.network.NetworkService;
 import cse.underdog.org.underdog_client.schedule.calendar.OneDayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SaturdayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
+import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ScheduleActivity extends AppCompatActivity {
-
+    String selectedDate;
     static CalendarDay selectedDay = null;
     static boolean Selected;
 /*
@@ -86,37 +91,10 @@ public class ScheduleActivity extends AppCompatActivity {
                 new SundayDecorator(),
                 new SaturdayDecorator(),
                 new OneDayDecorator());
-
-
-        Call<ScheduleResult> getSchedule = service.getSchedule();
-
-        getSchedule.enqueue(new Callback<ScheduleResult>() {
-            @Override
-            public void onResponse(Call<ScheduleResult> call, Response<ScheduleResult> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(getBaseContext(), "response success" , Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ScheduleResult> call, Throwable t) {
-
-            }
-        });
-
-
-
-
-
-
-
-
-
-
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-
+                getSchedule();
                 if(selectedDay == date){
                     selected = false;
                     Selected = selected;
@@ -129,7 +107,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 String year = String.valueOf(selectedDay.getYear());
                 String month, day;
                 if(selectedDay.getMonth() <10) {
-                    month = "0" + String.valueOf(selectedDay.getMonth());
+                    month = String.valueOf(selectedDay.getMonth()+1);
                 }
                 else month = String.valueOf(selectedDay.getMonth());
 
@@ -138,9 +116,10 @@ public class ScheduleActivity extends AppCompatActivity {
                 }
                 else day = String.valueOf(selectedDay.getDay());
 
-                String selectedDate = year+"-"+month+"-"+day;
+                selectedDate = year+"-"+month+"-"+day;
 
-                Toast.makeText(getBaseContext(), selectedDate , Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(getBaseContext(), selectedDate , Toast.LENGTH_SHORT).show();
 
                 /*
                 DATE = selectedDay.toString();
@@ -163,5 +142,28 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+    public void getSchedule(){
+        Call<ScheduleResult> getSchedule = service.getSchedule();
+        System.out.println("리스폰스");
+        getSchedule.enqueue(new Callback<ScheduleResult>() {
+            @Override
+            public void onResponse(Call<ScheduleResult> call, Response<ScheduleResult> response) {
+               // System.out.println("리스폰스"+response);
+               if (response.isSuccessful()) {
+                    if (response.body().stat.equals("success")) {
+                        Toast.makeText(getBaseContext(), "response success" , Toast.LENGTH_SHORT).show();
+
+                    }
+
+               }
+            }
+
+            @Override
+            public void onFailure(Call<ScheduleResult> call, Throwable t) {
+                Log.e("fail", t.getMessage());
+            }
+        });
     }
 }

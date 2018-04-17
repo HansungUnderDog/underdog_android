@@ -1,12 +1,14 @@
 package cse.underdog.org.underdog_client.network;
 
 
+import java.util.List;
+
 import cse.underdog.org.underdog_client.login.LoginInfo;
 import cse.underdog.org.underdog_client.login.LoginResult;
+import cse.underdog.org.underdog_client.schedule.ScheduleInfo;
 import cse.underdog.org.underdog_client.schedule.ScheduleResult;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface NetworkService {
@@ -14,7 +16,7 @@ public interface NetworkService {
     @POST("/login/signin")
     Call<LoginResult> checkLogin(@Body LoginInfo loginInfo);
 
-    @GET("/schedule/showschedule")
+    @POST("/schedule/showschedule")
     Call<ScheduleResult> getSchedule();
 
    /* @POST("/logout/logout")

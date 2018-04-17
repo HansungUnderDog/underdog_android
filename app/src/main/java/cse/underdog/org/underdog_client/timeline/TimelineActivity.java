@@ -21,8 +21,8 @@ public class TimelineActivity extends AppCompatActivity {
 
         //Initializing the TabLayout;
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Calander"));
         tabLayout.addTab(tabLayout.newTab().setText("Timeline"));
+        tabLayout.addTab(tabLayout.newTab().setText("Calendar"));
         tabLayout.addTab(tabLayout.newTab().setText("Memo"));
         tabLayout.addTab(tabLayout.newTab().setText("Etc"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);

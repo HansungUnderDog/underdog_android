@@ -25,11 +25,11 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         //Returning the current tabs
         switch (position){
             case 0:
-                CalendarFragment calendarFragment = new CalendarFragment();
-                return calendarFragment;
-            case 1:
                 TimelineFragment timelineFragment = new TimelineFragment();
                 return timelineFragment;
+            case 1:
+                CalendarFragment calendarFragment = new CalendarFragment();
+                return calendarFragment;
             case 2:
                 MemoFragment memoFragment = new MemoFragment();
                 return memoFragment;
