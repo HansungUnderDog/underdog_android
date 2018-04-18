@@ -2,15 +2,15 @@ package cse.underdog.org.underdog_client.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TimePicker;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -20,58 +20,102 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.application.ApplicationController;
-import cse.underdog.org.underdog_client.login.LoginInfo;
 import cse.underdog.org.underdog_client.network.NetworkService;
 import cse.underdog.org.underdog_client.schedule.calendar.OneDayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SaturdayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
-<<<<<<< HEAD
-import cse.underdog.org.underdog_client.timeline.TimelineActivity;
-=======
-import cse.underdog.org.underdog_client.speech.SttService;
->>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ScheduleActivity extends AppCompatActivity {
-    String selectedDate;
     static CalendarDay selectedDay = null;
     static boolean Selected;
-    SttService stt;
+    private final int REQ_CODE_SPEECH_INPUT = 100;
+
+    RecognitionListener listener = new RecognitionListener() {
+        @Override
+        public void onReadyForSpeech(Bundle bundle) {
+
+        }
+
+        @Override
+        public void onBeginningOfSpeech() {
+
+        }
+
+        @Override
+        public void onRmsChanged(float v) {
+
+        }
+
+        @Override
+        public void onBufferReceived(byte[] bytes) {
+
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+
+        }
+
+        @Override
+        public void onError(int i) {
+
+        }
+
+        @Override
+        public void onResults(Bundle bundle) {
+            String key= "";
+            key = SpeechRecognizer.RESULTS_RECOGNITION;
+            ArrayList<String> mResult = bundle.getStringArrayList(key);
+            String[] rs = new String[mResult.size()];
+            mResult.toArray(rs);
+            result = rs[0];
+        }
+
+        @Override
+        public void onPartialResults(Bundle bundle) {
+
+        }
+
+        @Override
+        public void onEvent(int i, Bundle bundle) {
+
+        }
+    };
+    String result = "no";
     Intent i;
     SpeechRecognizer mRecognizer;
-    String result;
 
     @BindView(R.id.calendarView)
     MaterialCalendarView calendar;
 
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.stt_button)
+    Button btn;
+
+//    @BindView(R.id.recyclerView)
     RecyclerView schedules;
 
     private NetworkService service;
 
-    private final long FINISH_INTERVAL_TIME = 2000;
-    private long backPressedTime = 0;
-
-    public void setStt() {
-         stt = SttService.getInstance();
-         i = SttService.getIntent();
-         stt.setStt(getPackageName());
-         mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-         mRecognizer.setRecognitionListener(stt.getListener());
-         // mRecognizer.startListening(i); // start sttService
-        //  String result = stt.getResult;
-    }
 
     public void setRecyclerView() {
 
+    }
+
+    public void setStt() {
+        i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "말해주세요");
+        startActivityForResult(i, REQ_CODE_SPEECH_INPUT);
     }
 
     public void setCalendar() {
@@ -86,27 +130,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 new SundayDecorator(),
                 new SaturdayDecorator(),
                 new OneDayDecorator());
-<<<<<<< HEAD
-=======
 
-        /*Call<ScheduleResult> getSchedule = service.getSchedule(); // server와 connect
-
-        getSchedule.enqueue(new Callback<ScheduleResult>() {
-            @Override
-            public void onResponse(Call<ScheduleResult> call, Response<ScheduleResult> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(getBaseContext(), "response successed" , Toast.LENGTH_SHORT).show();
-                }
-                else Toast.makeText(getBaseContext(), "response failed" , Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ScheduleResult> call, Throwable t) {
-
-            }
-        });*/
-
->>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
@@ -132,12 +156,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 }
                 else day = String.valueOf(selectedDay.getDay());
 
-<<<<<<< HEAD
-                selectedDate = year+"-"+month+"-"+day;
-
-
-                //Toast.makeText(getBaseContext(), selectedDate , Toast.LENGTH_SHORT).show();
-
                 /*
                 DATE = selectedDay.toString();
                 String[] parsedDATA = DATE.split("[{]");
@@ -156,11 +174,9 @@ public class ScheduleActivity extends AppCompatActivity {
                 }
                 updateScheduleList();
                 */
-=======
                 String selectedDate = year+"-"+month+"-"+day; // yyyy-mm-dd
 
                 Toast.makeText(getBaseContext(), selectedDate , Toast.LENGTH_SHORT).show();
->>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
             }
         });
     }
@@ -177,6 +193,18 @@ public class ScheduleActivity extends AppCompatActivity {
         setRecyclerView();
 
 
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view.getId() == R.id.stt_button) {
+                    System.out.println("in button listener");
+                    setStt();
+                }
+            }
+        });
+
+
     }
     public void getSchedule(){
         Call<ScheduleResult> getSchedule = service.getSchedule();
@@ -188,9 +216,8 @@ public class ScheduleActivity extends AppCompatActivity {
                if (response.isSuccessful()) {
                     if (response.body().stat.equals("success")) {
                         Toast.makeText(getBaseContext(), "response success" , Toast.LENGTH_SHORT).show();
-
+                        System.out.println(response.body().data);
                     }
-
                }
             }
 
@@ -201,4 +228,21 @@ public class ScheduleActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    btn.setText(result.get(0));
+                }
+                break;
+            }
+
+        }
+    }
 }

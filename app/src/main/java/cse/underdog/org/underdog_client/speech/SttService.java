@@ -12,7 +12,7 @@ public class SttService {
     private static SttService instance = new SttService();
     private static Intent intent;
     private static RecognitionListener listener;
-    private static String result;
+    private static String result = "no";
 
     private SttService() {
         intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -86,7 +86,7 @@ public class SttService {
         return listener;
     }
 
-    public static  String getResult() {
+    public static String getResult() {
         return result;
     }
 

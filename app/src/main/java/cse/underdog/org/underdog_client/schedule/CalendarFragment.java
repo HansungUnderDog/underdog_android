@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.timeline.TimelineActivity;
-<<<<<<< HEAD
 
 /*public class CalendarFragment extends Fragment {
     @Override
@@ -20,15 +19,13 @@ import cse.underdog.org.underdog_client.timeline.TimelineActivity;
         startActivity(intent);
     }
 }*/
-=======
->>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
 
 public class CalendarFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_schedule,container,false);
-        Intent intent = new Intent(this.getActivity(), ScheduleActivity.class);
+        Intent intent = new Intent(this.getActivity(), ScheduleActivity.class); //ScheduleActivity
         startActivity(intent);
         return view;
     }
