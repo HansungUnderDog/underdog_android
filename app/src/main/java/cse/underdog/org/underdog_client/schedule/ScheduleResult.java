@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleResult {
-    List<ScheduleInfo> data= new ArrayList<ScheduleInfo>();
-    String stat;
+    public List<ScheduleInfo> data= new ArrayList<ScheduleInfo>();
+    public String stat;
 
     public ScheduleResult(String stat) {
         this.stat = stat;
