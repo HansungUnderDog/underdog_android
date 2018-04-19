@@ -1,6 +1,5 @@
 package cse.underdog.org.underdog_client.speech;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 
@@ -11,7 +10,6 @@ import java.util.Locale;
 // This Class need Test
 public class SttService {
     private Intent i;
-    private ArrayList<String> results;
     private final int REQ_CODE_SPEECH_INPUT = 100;
 
     public SttService() {
@@ -20,7 +18,7 @@ public class SttService {
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         i.putExtra(RecognizerIntent.EXTRA_PROMPT, "말해주세요");
     }
-    public Intent getSttIntent() {
+    public Intent getIntent() {
         return i;
     }
 
@@ -42,24 +40,21 @@ public class SttService {
         return "Stt error";
     }
 
-    public void startStt(Activity  activity) {
-        activity.startActivityForResult(i, REQ_CODE_SPEECH_INPUT);
-    }
-
 }
 
 /*
- ************
-  Use Manual in Activity
- ************
+
+// *************************
+//  Use Manual in Activity
+// *************************
     String result; // Create String Object to receive return of stt
     SttService stt = new SttService(); // Create Stt object
-    stt.setStt(); // Set up stt service
-    startActivityForResult(stt.getSttIntent(), stt.getREQ()); // start stt
-    stt.startStt(this); // start stt : need test
+    startActivityForResult(stt.getIntent(), stt.getREQ()); // start stt
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         result = stt.getResult(requestCode, resultCode, RESULT_OK, data); // in 'onActivityResult' method : run this method to return value of stt
-    }*/
+    }
+
+ */

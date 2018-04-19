@@ -17,6 +17,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,7 +39,6 @@ public class ScheduleFragment extends Fragment {
 
     static CalendarDay selectedDay = null;
     static boolean Selected;
-    private final int REQ_CODE_SPEECH_INPUT = 100;
 
     String result = "no";
     Intent i;
@@ -64,9 +64,7 @@ public class ScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calendar, null);
         ButterKnife.bind(this, view);
         service = ApplicationController.getInstance().getNetworkService();
-
         setCalendar();
-
         return view;
     }
 
@@ -140,5 +138,3 @@ public class ScheduleFragment extends Fragment {
     }
 
 }
-
-
