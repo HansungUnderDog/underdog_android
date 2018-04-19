@@ -20,7 +20,7 @@ public class TtsService {
 
     public void sttStart(String value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            tts.speak(value, TextToSpeech.QUEUE_FLUSH, null, null)
+            tts.speak(value, TextToSpeech.QUEUE_FLUSH, null, null);
         } else {
             tts.speak(value, TextToSpeech.QUEUE_FLUSH, null);
         }

@@ -1,22 +1,33 @@
 package cse.underdog.org.underdog_client.schedule;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,6 +35,8 @@ import butterknife.ButterKnife;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.application.ApplicationController;
 import cse.underdog.org.underdog_client.network.NetworkService;
+import cse.underdog.org.underdog_client.recyclerview.schedule.RecyclerAdapterTabSchedule;
+import cse.underdog.org.underdog_client.recyclerview.schedule.ScheduleViewHolder;
 import cse.underdog.org.underdog_client.schedule.calendar.OneDayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SaturdayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
@@ -33,24 +46,32 @@ import retrofit2.Response;
 
 
 public class ScheduleFragment extends Fragment {
+    private HashMap<String, ArrayList<ScheduleInfo>> hash;
+    int count = 0;
+    private NetworkService service;
     String selectedDate;
-    List<ScheduleInfo> schedules;
+
+    Date date;
+    SimpleDateFormat tmp;
+    String currentDate;
+
+    ArrayList<ScheduleInfo> schedules= new ArrayList<ScheduleInfo>();
+    ArrayList<ScheduleInfo> currentArray = new ArrayList<ScheduleInfo>();
+    ArrayList<ScheduleInfo> selectedArray = new ArrayList<ScheduleInfo>();
+    //ArrayList<ScheduleInfo> emptyArray;
+
+    private RecyclerView sRecyclerView;
+    private RecyclerAdapterTabSchedule sAdapter;
+    private RecyclerView.LayoutManager sLayoutManager;
 
     static CalendarDay selectedDay = null;
     static boolean Selected;
-    private final int REQ_CODE_SPEECH_INPUT = 100;
 
-    String result = "no";
-    Intent i;
-
+    @Nullable
     @BindView(R.id.calendarView)
     MaterialCalendarView calendar;
 
-    @BindView(R.id.recyclerView)
-    RecyclerView schedule;
-
-
-    private NetworkService service;
+    private final int REQ_CODE_SPEECH_INPUT = 100;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,13 +82,137 @@ public class ScheduleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar, null);
-        ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.fragment_schedule, null);
+        date = new Date();
+        tmp = new SimpleDateFormat("yyyy-MM-dd");
+        currentDate = tmp.format(date).toString();
         service = ApplicationController.getInstance().getNetworkService();
+        ButterKnife.bind(this, view);
+        //ScheduleInfo info = new ScheduleInfo(1,1, "asdf", "asdf", "asdf", "asdf", 1, 1);
+       // emptyArray = new ArrayList<ScheduleInfo>();
+       // emptyArray.add(info);
+
+        HashMap<String, ScheduleInfo> hashMap = new HashMap<>();
 
         setCalendar();
+        System.out.println("셀렉 " + selectedDate);
+        System.out.println(currentDate);
+
+        sRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
+        //getRecyclerView(emptyArray);
+
+        getSchedule();
+        System.out.println("시댕" + schedules.size());
+
+
+        //System.out.println(schedules.indexOf(0));
 
         return view;
+    }
+
+    public void getHash(){
+        hash = new HashMap<String, ArrayList<ScheduleInfo>> ();
+
+        for(int i=0; i<schedules.size();i++) {
+            String splitDate[] = schedules.get(i).dates.split("T");
+            String com = splitDate[0];
+            ArrayList<ScheduleInfo> array = new ArrayList<ScheduleInfo>();
+            for(int j=0; j<schedules.size(); j++) {
+                String splitDate2[] = schedules.get(j).dates.toString().split("T");
+                String com2 = splitDate2[0];
+                if(com2.equals(com)) {
+                    array.add((ScheduleInfo) schedules.get(j));
+                    System.out.println("arrayadd" + schedules.get(j));
+                } else {System.out.println("아무거나" + j + schedules.get(j)); }
+            }
+            hash.put(com, array);
+        }
+
+        /*System.out.println("제발제발 " + hash.keySet());
+        System.out.println("제발제발1 " + hash.get("2018-04-19"));
+        System.out.println("제발제발2 " + hash.get("2018-04-13"));*/
+        currentArray = hash.get(currentDate);
+        selectedArray = hash.get(selectedDate);
+
+        if(currentArray == null) {
+            currentArray = new ArrayList<ScheduleInfo>();
+        }
+        if(selectedArray == null) {
+            selectedArray = new ArrayList<ScheduleInfo>();
+        }
+
+
+        Iterator it = hash.keySet().iterator();
+        while(it.hasNext()){
+            String key = (String)it.next();
+            if(key.equals(currentDate)){
+                System.out.println("커렌트랑 같음" + key);
+            }
+
+            if(key.equals(selectedDate)){
+                System.out.println("셀렉트랑 같음" + key);
+            }
+
+            System.out.println("여긴댐?");
+            ArrayList<ScheduleInfo> info = hash.get(key);
+            System.out.println("위에 인포" + info.size());
+            for(int i=0; i<info.size(); i++){
+                System.out.println("인포싸이즈" + info.size());
+                System.out.println("인포싸이즈" + info.get(i).app_person);
+            }
+        }
+
+        currentArray = hash.get(currentDate);
+        selectedArray = hash.get(selectedDate);
+
+        System.out.println("커렌데이트" + currentDate);
+        System.out.println("셀렉데이트" + selectedDate);
+
+
+        //System.out.println("커렌트"+currentArray.size());
+        //System.out.println("셀렉트"+selectedArray.size());
+    }
+
+    public void getRecyclerView(ArrayList<ScheduleInfo> sArray){
+
+
+        sRecyclerView.setHasFixedSize(false);
+        sLayoutManager = new LinearLayoutManager(getActivity());
+        sRecyclerView.setLayoutManager(sLayoutManager);
+        sRecyclerView.scrollToPosition(0);
+        System.out.println("스케쥴사이즈"+schedules.size());
+
+        sAdapter = new RecyclerAdapterTabSchedule(sArray);
+        sRecyclerView.setAdapter(sAdapter);
+        sRecyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    public void getSchedule(){
+        Call<ScheduleResult> getSchedule = service.getSchedule();
+
+        getSchedule.enqueue(new Callback<ScheduleResult>() {
+            @Override
+            public void onResponse(Call<ScheduleResult> call, Response<ScheduleResult> response) {
+                // System.out.println("리스폰스"+response);
+                if (response.isSuccessful()) {
+                    if (response.body().stat.equals("success")) {
+                        System.out.println("리스폰스");
+                        for(int i=0; i<response.body().data.size(); i++){
+                            schedules.add(response.body().data.get(i));
+                        }
+                        getHash();
+                        getRecyclerView(currentArray);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ScheduleResult> call, Throwable t) {
+                Log.e("fail", t.getMessage());
+                System.out.println("리스폰스 실패");
+            }
+        });
     }
 
     public void setCalendar() {
@@ -99,7 +244,7 @@ public class ScheduleFragment extends Fragment {
                 String year = String.valueOf(selectedDay.getYear());
                 String month, day;
                 if(selectedDay.getMonth() <10) {
-                    month = String.valueOf(selectedDay.getMonth()+1);
+                    month = "0"+String.valueOf(selectedDay.getMonth()+1);
                 }
                 else month = String.valueOf(selectedDay.getMonth());
 
@@ -109,35 +254,17 @@ public class ScheduleFragment extends Fragment {
                 else day = String.valueOf(selectedDay.getDay());
 
 
-                selectedDate = year+"-"+month+"-"+day;
+                //selectedDate = year+"-"+month+"-"+day;
 
-                String selectedDate = year+"-"+month+"-"+day; // yyyy-mm-dd
+                selectedDate = year+"-"+month+"-"+day; // yyyy-mm-dd
+                System.out.println("아래에서 " + selectedDate);
 
+                getHash();
+                getRecyclerView(selectedArray);
             }
         });
     }
 
-    public void getSchedule(){
-        Call<ScheduleResult> getSchedule = service.getSchedule();
-        System.out.println("리스폰스");
-        getSchedule.enqueue(new Callback<ScheduleResult>() {
-            @Override
-            public void onResponse(Call<ScheduleResult> call, Response<ScheduleResult> response) {
-                // System.out.println("리스폰스"+response);
-                if (response.isSuccessful()) {
-                    if (response.body().stat.equals("success")) {
-                        schedules=response.body().data;
-                        System.out.println(response.body().data);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ScheduleResult> call, Throwable t) {
-                Log.e("fail", t.getMessage());
-            }
-        });
-    }
 
 }
 
