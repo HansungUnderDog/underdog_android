@@ -9,16 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cse.underdog.org.underdog_client.R;
-import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 
-/*public class CalendarFragment extends Fragment {
+/*
+public class CalendarFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = new Intent(getActivity(), ScheduleActivity.class);
         startActivity(intent);
     }
-}*/
+}
+*/
 
 public class CalendarFragment extends Fragment {
     @Nullable
@@ -29,7 +30,4 @@ public class CalendarFragment extends Fragment {
         startActivity(intent);
         return view;
     }
-
 }
-
-

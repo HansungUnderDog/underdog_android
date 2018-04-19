@@ -2,14 +2,10 @@ package cse.underdog.org.underdog_client.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -18,9 +14,7 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,62 +31,8 @@ import retrofit2.Response;
 public class ScheduleActivity extends AppCompatActivity {
     static CalendarDay selectedDay = null;
     static boolean Selected;
-    private final int REQ_CODE_SPEECH_INPUT = 100;
-
-    RecognitionListener listener = new RecognitionListener() {
-        @Override
-        public void onReadyForSpeech(Bundle bundle) {
-
-        }
-
-        @Override
-        public void onBeginningOfSpeech() {
-
-        }
-
-        @Override
-        public void onRmsChanged(float v) {
-
-        }
-
-        @Override
-        public void onBufferReceived(byte[] bytes) {
-
-        }
-
-        @Override
-        public void onEndOfSpeech() {
-
-        }
-
-        @Override
-        public void onError(int i) {
-
-        }
-
-        @Override
-        public void onResults(Bundle bundle) {
-            String key= "";
-            key = SpeechRecognizer.RESULTS_RECOGNITION;
-            ArrayList<String> mResult = bundle.getStringArrayList(key);
-            String[] rs = new String[mResult.size()];
-            mResult.toArray(rs);
-            result = rs[0];
-        }
-
-        @Override
-        public void onPartialResults(Bundle bundle) {
-
-        }
-
-        @Override
-        public void onEvent(int i, Bundle bundle) {
-
-        }
-    };
     String result = "no";
     Intent i;
-    SpeechRecognizer mRecognizer;
 
     @BindView(R.id.calendarView)
     MaterialCalendarView calendar;
@@ -100,22 +40,10 @@ public class ScheduleActivity extends AppCompatActivity {
     @BindView(R.id.stt_button)
     Button btn;
 
-//    @BindView(R.id.recyclerView)
-    RecyclerView schedules;
-
     private NetworkService service;
-
 
     public void setRecyclerView() {
 
-    }
-
-    public void setStt() {
-        i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "말해주세요");
-        startActivityForResult(i, REQ_CODE_SPEECH_INPUT);
     }
 
     public void setCalendar() {
@@ -155,25 +83,6 @@ public class ScheduleActivity extends AppCompatActivity {
                     day = "0" + String.valueOf(selectedDay.getDay());
                 }
                 else day = String.valueOf(selectedDay.getDay());
-
-                /*
-                DATE = selectedDay.toString();
-                String[] parsedDATA = DATE.split("[{]");
-                parsedDATA = parsedDATA[1].split("[}]");
-                parsedDATA = parsedDATA[0].split("-");
-                year = Integer.parseInt(parsedDATA[0]);
-                month = Integer.parseInt(parsedDATA[1])+1;
-                day = Integer.parseInt(parsedDATA[2]);
-
-                arrayList = new ArrayList<String>();
-
-                for(int i=0; i<Day_data.size(); i++){
-                    if(Day_data.get(i).getDay() == day){
-                        arrayList.add(Day_data.get(i).getText_schedule());
-                    }
-                }
-                updateScheduleList();
-                */
                 String selectedDate = year+"-"+month+"-"+day; // yyyy-mm-dd
 
                 Toast.makeText(getBaseContext(), selectedDate , Toast.LENGTH_SHORT).show();
@@ -191,18 +100,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
         setCalendar();
         setRecyclerView();
-
-
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(view.getId() == R.id.stt_button) {
-                    System.out.println("in button listener");
-                    setStt();
-                }
-            }
-        });
 
 
     }
@@ -226,23 +123,5 @@ public class ScheduleActivity extends AppCompatActivity {
                 Log.e("fail", t.getMessage());
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == RESULT_OK && null != data) {
-
-                    ArrayList<String> result = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    btn.setText(result.get(0));
-                }
-                break;
-            }
-
-        }
     }
 }

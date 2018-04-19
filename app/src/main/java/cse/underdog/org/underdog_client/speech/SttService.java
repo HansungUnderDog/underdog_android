@@ -1,93 +1,65 @@
 package cse.underdog.org.underdog_client.speech;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
+
+// This Class need Test
 public class SttService {
-    private static SttService instance = new SttService();
-    private static Intent intent;
-    private static RecognitionListener listener;
-    private static String result = "no";
+    private Intent i;
+    private ArrayList<String> results;
+    private final int REQ_CODE_SPEECH_INPUT = 100;
 
-    private SttService() {
-        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR"); //Locale.getDefault()
-        listener =  new RecognitionListener() {
-            @Override
-            public void onReadyForSpeech(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onBeginningOfSpeech() {
-
-            }
-
-            @Override
-            public void onRmsChanged(float v) {
-
-            }
-
-            @Override
-            public void onBufferReceived(byte[] bytes) {
-
-            }
-
-            @Override
-            public void onEndOfSpeech() {
-
-            }
-
-            @Override
-            public void onError(int i) {
-
-            }
-
-            @Override
-            public void onResults(Bundle bundle) {
-                String key = "";
-                key = SpeechRecognizer.RESULTS_RECOGNITION;
-                ArrayList<String> mResult = bundle.getStringArrayList(key);
-                String[] rs = new String[mResult.size()];
-                mResult.toArray(rs);
-                result = rs[0];
-            }
-
-            @Override
-            public void onPartialResults(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onEvent(int i, Bundle bundle) {
-
-            }
-        };
+    public SttService() {
+        i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "말해주세요");
+    }
+    public Intent getSttIntent() {
+        return i;
     }
 
-    public static SttService getInstance() {
-        return instance;
+    public int getREQ() {
+        return REQ_CODE_SPEECH_INPUT;
     }
 
-    public static Intent getIntent() {
-        return intent;
+    public String getResult(int requestCode, int resultCode, int RESULT_OK, Intent data) {
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> results = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    return results.get(0);
+                }
+                break;
+            }
+        }
+        return "Stt error";
     }
 
-    public static void setStt(String getPackageName) {
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName);
-    }
-
-    public static RecognitionListener getListener() {
-        return listener;
-    }
-
-    public static String getResult() {
-        return result;
+    public void startStt(Activity  activity) {
+        activity.startActivityForResult(i, REQ_CODE_SPEECH_INPUT);
     }
 
 }
+
+/*
+ ************
+  Use Manual in Activity
+ ************
+    String result; // Create String Object to receive return of stt
+    SttService stt = new SttService(); // Create Stt object
+    stt.setStt(); // Set up stt service
+    startActivityForResult(stt.getSttIntent(), stt.getREQ()); // start stt
+    stt.startStt(this); // start stt : need test
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        result = stt.getResult(requestCode, resultCode, RESULT_OK, data); // in 'onActivityResult' method : run this method to return value of stt
+    }*/
