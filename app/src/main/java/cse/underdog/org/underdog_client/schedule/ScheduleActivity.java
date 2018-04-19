@@ -31,17 +31,16 @@ import cse.underdog.org.underdog_client.network.NetworkService;
 import cse.underdog.org.underdog_client.schedule.calendar.OneDayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SaturdayDecorator;
 import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
-<<<<<<< HEAD
 import cse.underdog.org.underdog_client.timeline.TimelineActivity;
-=======
 import cse.underdog.org.underdog_client.speech.SttService;
->>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 public class ScheduleActivity extends AppCompatActivity {
     String selectedDate;
+    List<ScheduleInfo> schedules;
     static CalendarDay selectedDay = null;
     static boolean Selected;
     SttService stt;
@@ -53,7 +52,7 @@ public class ScheduleActivity extends AppCompatActivity {
     MaterialCalendarView calendar;
 
     @BindView(R.id.recyclerView)
-    RecyclerView schedules;
+    RecyclerView schedule;
 
     private NetworkService service;
 
@@ -71,7 +70,10 @@ public class ScheduleActivity extends AppCompatActivity {
     }
 
     public void setRecyclerView() {
+        getSchedule();
+        for(ScheduleInfo scheduleInfo : schedules){
 
+        }
     }
 
     public void setCalendar() {
@@ -86,8 +88,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 new SundayDecorator(),
                 new SaturdayDecorator(),
                 new OneDayDecorator());
-<<<<<<< HEAD
-=======
 
         /*Call<ScheduleResult> getSchedule = service.getSchedule(); // server와 connect
 
@@ -106,11 +106,10 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });*/
 
->>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                getSchedule();
+
                 if(selectedDay == date){
                     selected = false;
                     Selected = selected;
@@ -132,7 +131,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 }
                 else day = String.valueOf(selectedDay.getDay());
 
-<<<<<<< HEAD
+
                 selectedDate = year+"-"+month+"-"+day;
 
 
@@ -156,11 +155,10 @@ public class ScheduleActivity extends AppCompatActivity {
                 }
                 updateScheduleList();
                 */
-=======
+
                 String selectedDate = year+"-"+month+"-"+day; // yyyy-mm-dd
 
                 Toast.makeText(getBaseContext(), selectedDate , Toast.LENGTH_SHORT).show();
->>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
             }
         });
     }
@@ -188,7 +186,7 @@ public class ScheduleActivity extends AppCompatActivity {
                if (response.isSuccessful()) {
                     if (response.body().stat.equals("success")) {
                         Toast.makeText(getBaseContext(), "response success" , Toast.LENGTH_SHORT).show();
-
+                        schedules=response.body().data;
                     }
 
                }

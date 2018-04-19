@@ -1,9 +1,6 @@
 package cse.underdog.org.underdog_client.timeline;
 
-<<<<<<< HEAD
 import android.content.Context;
-=======
->>>>>>> b223e028edb084389a9ed860d7144f6b5ee9e5d1
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
