@@ -4,11 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import cse.underdog.org.underdog_client.etc.EtcActivity;
 import cse.underdog.org.underdog_client.etc.EtcFragment;
-import cse.underdog.org.underdog_client.memo.MemoActivity;
 import cse.underdog.org.underdog_client.memo.MemoFragment;
-import cse.underdog.org.underdog_client.schedule.CalendarFragment;
+import cse.underdog.org.underdog_client.schedule.ScheduleFragment;
 import cse.underdog.org.underdog_client.timeline.TimelineFragment;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
@@ -28,15 +26,14 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 TimelineFragment timelineFragment = new TimelineFragment();
                 return timelineFragment;
             case 1:
-                CalendarFragment calendarFragment = new CalendarFragment();
-                return calendarFragment;
+                ScheduleFragment scheduleFragment = new ScheduleFragment();
+                return scheduleFragment;
             case 2:
                 MemoFragment memoFragment = new MemoFragment();
                 return memoFragment;
             case 3:
                 EtcFragment etcFragment = new EtcFragment();
                 return etcFragment;
-
 
             default:
                 return null;

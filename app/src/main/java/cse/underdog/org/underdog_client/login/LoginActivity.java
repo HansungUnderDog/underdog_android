@@ -13,9 +13,9 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cse.underdog.org.underdog_client.R;
+import cse.underdog.org.underdog_client.TabActivity;
 import cse.underdog.org.underdog_client.application.ApplicationController;
 import cse.underdog.org.underdog_client.network.NetworkService;
-import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,8 +99,13 @@ public class LoginActivity extends AppCompatActivity {
                     System.out.println("response.body" + response.body().stat);
                     if (response.body().stat.equals("success")) {
                         System.out.println("hihihihi");
-                        Intent intent = new Intent(getBaseContext(), TimelineActivity.class);
+                        Intent intent = new Intent(getBaseContext(), TabActivity.class);
                         startActivity(intent);
+                        /*Fragment fragment = new Fragment();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_timeline, fragment);
+                        fragmentTransaction.commit();*/
                     }
                 }else{
                     Toast.makeText(getBaseContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
