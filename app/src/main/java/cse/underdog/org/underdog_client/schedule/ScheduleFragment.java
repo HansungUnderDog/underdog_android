@@ -25,12 +25,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-<<<<<<< HEAD
-=======
+
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
->>>>>>> 4d413008e18e70f6e8cd9ee232262239b07d7c22
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,6 +44,7 @@ import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 
 public class ScheduleFragment extends Fragment {
@@ -69,12 +68,9 @@ public class ScheduleFragment extends Fragment {
 
     static CalendarDay selectedDay = null;
     static boolean Selected;
-<<<<<<< HEAD
 
     String result = "no";
     Intent i;
-=======
->>>>>>> 4d413008e18e70f6e8cd9ee232262239b07d7c22
 
     @Nullable
     @BindView(R.id.calendarView)
@@ -96,10 +92,11 @@ public class ScheduleFragment extends Fragment {
         tmp = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = tmp.format(date).toString();
         service = ApplicationController.getInstance().getNetworkService();
-<<<<<<< HEAD
-        setCalendar();
-=======
+
         ButterKnife.bind(this, view);
+
+        setCalendar();
+
         //ScheduleInfo info = new ScheduleInfo(1,1, "asdf", "asdf", "asdf", "asdf", 1, 1);
        // emptyArray = new ArrayList<ScheduleInfo>();
        // emptyArray.add(info);
@@ -120,7 +117,6 @@ public class ScheduleFragment extends Fragment {
 
         //System.out.println(schedules.indexOf(0));
 
->>>>>>> 4d413008e18e70f6e8cd9ee232262239b07d7c22
         return view;
     }
 
