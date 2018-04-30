@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -25,13 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-<<<<<<< HEAD
-=======
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
->>>>>>> 4d413008e18e70f6e8cd9ee232262239b07d7c22
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,12 +63,9 @@ public class ScheduleFragment extends Fragment {
 
     static CalendarDay selectedDay = null;
     static boolean Selected;
-<<<<<<< HEAD
 
     String result = "no";
     Intent i;
-=======
->>>>>>> 4d413008e18e70f6e8cd9ee232262239b07d7c22
 
     @Nullable
     @BindView(R.id.calendarView)
@@ -96,10 +87,8 @@ public class ScheduleFragment extends Fragment {
         tmp = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = tmp.format(date).toString();
         service = ApplicationController.getInstance().getNetworkService();
-<<<<<<< HEAD
-        setCalendar();
-=======
         ButterKnife.bind(this, view);
+        setCalendar();
         //ScheduleInfo info = new ScheduleInfo(1,1, "asdf", "asdf", "asdf", "asdf", 1, 1);
        // emptyArray = new ArrayList<ScheduleInfo>();
        // emptyArray.add(info);
@@ -117,10 +106,7 @@ public class ScheduleFragment extends Fragment {
         getSchedule();
         System.out.println("시댕" + schedules.size());
 
-
         //System.out.println(schedules.indexOf(0));
-
->>>>>>> 4d413008e18e70f6e8cd9ee232262239b07d7c22
         return view;
     }
 
@@ -234,7 +220,7 @@ public class ScheduleFragment extends Fragment {
                 .setMinimumDate(CalendarDay.from(2010, 0, 1))
                 .setMaximumDate(CalendarDay.from(2050, 11, 31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
-                .commit();//View);
+                .commit();
 
         calendar.addDecorators( // 오늘, 일요일, 토요일 날짜에 데코
                 new SundayDecorator(),
