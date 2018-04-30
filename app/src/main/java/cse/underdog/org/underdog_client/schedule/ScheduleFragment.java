@@ -24,8 +24,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 89743f3043fee7a47c72b10832473a04f8138f2d
 import java.util.HashMap;
 import java.util.Iterator;
+<<<<<<< HEAD
+=======
+import java.util.List;
+>>>>>>> 89743f3043fee7a47c72b10832473a04f8138f2d
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +48,7 @@ import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 
 public class ScheduleFragment extends Fragment {
@@ -87,8 +96,16 @@ public class ScheduleFragment extends Fragment {
         tmp = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = tmp.format(date).toString();
         service = ApplicationController.getInstance().getNetworkService();
+<<<<<<< HEAD
         ButterKnife.bind(this, view);
         setCalendar();
+=======
+
+        ButterKnife.bind(this, view);
+
+        setCalendar();
+
+>>>>>>> 89743f3043fee7a47c72b10832473a04f8138f2d
         //ScheduleInfo info = new ScheduleInfo(1,1, "asdf", "asdf", "asdf", "asdf", 1, 1);
        // emptyArray = new ArrayList<ScheduleInfo>();
        // emptyArray.add(info);
@@ -107,6 +124,10 @@ public class ScheduleFragment extends Fragment {
         System.out.println("시댕" + schedules.size());
 
         //System.out.println(schedules.indexOf(0));
+<<<<<<< HEAD
+=======
+
+>>>>>>> 89743f3043fee7a47c72b10832473a04f8138f2d
         return view;
     }
 
