@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -25,11 +24,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 89743f3043fee7a47c72b10832473a04f8138f2d
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
+<<<<<<< HEAD
+=======
 import java.util.List;
+>>>>>>> 89743f3043fee7a47c72b10832473a04f8138f2d
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,11 +96,16 @@ public class ScheduleFragment extends Fragment {
         tmp = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = tmp.format(date).toString();
         service = ApplicationController.getInstance().getNetworkService();
+<<<<<<< HEAD
+        ButterKnife.bind(this, view);
+        setCalendar();
+=======
 
         ButterKnife.bind(this, view);
 
         setCalendar();
 
+>>>>>>> 89743f3043fee7a47c72b10832473a04f8138f2d
         //ScheduleInfo info = new ScheduleInfo(1,1, "asdf", "asdf", "asdf", "asdf", 1, 1);
        // emptyArray = new ArrayList<ScheduleInfo>();
        // emptyArray.add(info);
@@ -111,9 +120,11 @@ public class ScheduleFragment extends Fragment {
 
         getSchedule();
 
-
         //System.out.println(schedules.indexOf(0));
+<<<<<<< HEAD
+=======
 
+>>>>>>> 89743f3043fee7a47c72b10832473a04f8138f2d
         return view;
     }
 
@@ -202,7 +213,7 @@ public class ScheduleFragment extends Fragment {
                 .setMinimumDate(CalendarDay.from(2010, 0, 1))
                 .setMaximumDate(CalendarDay.from(2050, 11, 31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
-                .commit();//View);
+                .commit();
 
         calendar.addDecorators( // 오늘, 일요일, 토요일 날짜에 데코
                 new SundayDecorator(),
