@@ -104,15 +104,12 @@ public class ScheduleFragment extends Fragment {
         HashMap<String, ScheduleInfo> hashMap = new HashMap<>();
 
         setCalendar();
-        System.out.println("셀렉 " + selectedDate);
-        System.out.println(currentDate);
 
         sRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
         //getRecyclerView(emptyArray);
 
         getSchedule();
-        System.out.println("시댕" + schedules.size());
 
 
         //System.out.println(schedules.indexOf(0));
@@ -132,15 +129,11 @@ public class ScheduleFragment extends Fragment {
                 String com2 = splitDate2[0];
                 if(com2.equals(com)) {
                     array.add((ScheduleInfo) schedules.get(j));
-                    System.out.println("arrayadd" + schedules.get(j));
-                } else {System.out.println("아무거나" + j + schedules.get(j)); }
+                }
             }
             hash.put(com, array);
         }
 
-        /*System.out.println("제발제발 " + hash.keySet());
-        System.out.println("제발제발1 " + hash.get("2018-04-19"));
-        System.out.println("제발제발2 " + hash.get("2018-04-13"));*/
         currentArray = hash.get(currentDate);
         selectedArray = hash.get(selectedDate);
 
@@ -155,32 +148,13 @@ public class ScheduleFragment extends Fragment {
         Iterator it = hash.keySet().iterator();
         while(it.hasNext()){
             String key = (String)it.next();
-            if(key.equals(currentDate)){
-                System.out.println("커렌트랑 같음" + key);
-            }
 
-            if(key.equals(selectedDate)){
-                System.out.println("셀렉트랑 같음" + key);
-            }
-
-            System.out.println("여긴댐?");
             ArrayList<ScheduleInfo> info = hash.get(key);
-            System.out.println("위에 인포" + info.size());
-            for(int i=0; i<info.size(); i++){
-                System.out.println("인포싸이즈" + info.size());
-                System.out.println("인포싸이즈" + info.get(i).app_person);
-            }
         }
 
         currentArray = hash.get(currentDate);
         selectedArray = hash.get(selectedDate);
 
-        System.out.println("커렌데이트" + currentDate);
-        System.out.println("셀렉데이트" + selectedDate);
-
-
-        //System.out.println("커렌트"+currentArray.size());
-        //System.out.println("셀렉트"+selectedArray.size());
     }
 
     public void getRecyclerView(ArrayList<ScheduleInfo> sArray){
@@ -190,7 +164,6 @@ public class ScheduleFragment extends Fragment {
         sLayoutManager = new LinearLayoutManager(getActivity());
         sRecyclerView.setLayoutManager(sLayoutManager);
         sRecyclerView.scrollToPosition(0);
-        System.out.println("스케쥴사이즈"+schedules.size());
 
         sAdapter = new RecyclerAdapterTabSchedule(sArray);
         sRecyclerView.setAdapter(sAdapter);
@@ -203,7 +176,6 @@ public class ScheduleFragment extends Fragment {
         getSchedule.enqueue(new Callback<ScheduleResult>() {
             @Override
             public void onResponse(Call<ScheduleResult> call, Response<ScheduleResult> response) {
-                // System.out.println("리스폰스"+response);
                 if (response.isSuccessful()) {
                     if (response.body().stat.equals("success")) {
                         System.out.println("리스폰스");
