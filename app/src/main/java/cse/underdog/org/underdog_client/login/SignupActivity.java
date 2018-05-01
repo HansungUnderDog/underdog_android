@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cse.underdog.org.underdog_client.MainActivity;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.application.ApplicationController;
 import cse.underdog.org.underdog_client.network.NetworkService;

@@ -6,6 +6,7 @@ import cse.underdog.org.underdog_client.login.UserInfo;
 public class LoginUserInfo {
     private static LoginUserInfo instance = null;
 
+
     private LoginUserInfo() {
 
     }
