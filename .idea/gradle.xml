@@ -9,11 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/calendar-release" />
-            <option value="$PROJECT_DIR$/chips-release" />
-            <option value="$PROJECT_DIR$/colorpicker-release" />
-            <option value="$PROJECT_DIR$/datetimepicker-release" />
-            <option value="$PROJECT_DIR$/timezonepicker-release" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

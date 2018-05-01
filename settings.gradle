@@ -1,1 +1,1 @@
-include ':app', ':calendar-release', ':chips-release', ':colorpicker-release', ':datetimepicker-release', ':timezonepicker-release'
+include ':app'
