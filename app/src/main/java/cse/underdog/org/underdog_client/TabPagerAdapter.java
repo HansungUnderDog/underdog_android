@@ -1,5 +1,6 @@
 package cse.underdog.org.underdog_client;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -23,8 +24,10 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         //Returning the current tabs
         switch (position){
             case 0:
-                TimelineFragment timelineFragment = new TimelineFragment();
-                return timelineFragment;
+                EtcFragment etcFragment = new EtcFragment();
+                return etcFragment;
+                /*TimelineFragment timelineFragment = new TimelineFragment();
+                return timelineFragment;*/
             case 1:
                 ScheduleFragment scheduleFragment = new ScheduleFragment();
                 return scheduleFragment;
@@ -32,8 +35,10 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 MemoFragment memoFragment = new MemoFragment();
                 return memoFragment;
             case 3:
-                EtcFragment etcFragment = new EtcFragment();
-                return etcFragment;
+                /*EtcFragment etcFragment = new EtcFragment();
+                return etcFragment;*/
+                TimelineFragment timelineFragment = new TimelineFragment();
+                return timelineFragment;
 
             default:
                 return null;
