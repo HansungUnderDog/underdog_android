@@ -1,33 +1,14 @@
 package cse.underdog.org.underdog_client.recyclerview.schedule;
 
-import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.CalendarMode;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import cse.underdog.org.underdog_client.R;
-import cse.underdog.org.underdog_client.application.ApplicationController;
-import cse.underdog.org.underdog_client.network.NetworkService;
 import cse.underdog.org.underdog_client.schedule.ScheduleInfo;
-import cse.underdog.org.underdog_client.schedule.ScheduleResult;
-import cse.underdog.org.underdog_client.schedule.calendar.OneDayDecorator;
-import cse.underdog.org.underdog_client.schedule.calendar.SaturdayDecorator;
-import cse.underdog.org.underdog_client.schedule.calendar.SundayDecorator;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class RecyclerAdapterTabSchedule extends RecyclerView.Adapter<ScheduleViewHolder>{
 
     private ArrayList<ScheduleInfo> schedules;
