@@ -1,7 +1,6 @@
 package cse.underdog.org.underdog_client;
 
 import android.Manifest;
-import android.Manifest;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
