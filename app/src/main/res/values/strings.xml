@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Under Dog</string>
+    <string name="app_name">My Calendar</string>
     <string name="no_event">No event</string>
     <string name="calendar_permission_required">Calendar access is required to manage your events</string>
     <string name="all_day">All day</string>
@@ -37,11 +37,4 @@
     <string name="close_drawer">Close drawer</string>
     <string name="calendars">Calendars</string>
     <string name="error_location">Unable to determine your location</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="about">About</string>
-    <string name="menu_delete">Delete Item</string>
-    <string name="no_title">No Title</string>
-    <string name="edit_note">Edit Note</string>
-    <string name="save_menu_noteedit">Save</string>
-    <string name="delete_menu_noteedit">Delete</string>
 </resources>

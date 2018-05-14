@@ -17,7 +17,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -31,23 +30,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import java.sql.Time;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 
-import cse.underdog.org.underdog_client.etc.EtcActivity;
-import cse.underdog.org.underdog_client.memo.MemoActivity;
-import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 import cse.underdog.org.underdog_client.weather.WeatherSyncService;
 import cse.underdog.org.underdog_client.widget.CalendarSelectionView;
 import cse.underdog.org.underdog_client.content.CalendarCursor;
@@ -107,58 +100,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setUpPreferences();
-
-        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-        //inflater.inflate(R.layout.view_with_merge_tag, this.a);
-        //View layoutmain = getLayoutInflater().inflate(R.layout.view_with_merge_tag, null);
         setContentView(R.layout.activity_main);
-        //View layoutmain = getLayoutInflater().inflate(R.layout.activity_main, null)
-        //MyCustomView view = getLayoutInflater().inflate(R.layout.);
-        //MyCustomView view;
-        //setContentView(view, new view.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
         setUpContentView();
-
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
-        menuItem.setChecked(true);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-
-                    case R.id.ic_android:
-                        Intent intent1 = new Intent(MainActivity.this, TimelineActivity.class);
-                        startActivity(intent1);
-                        break;
-
-                    case R.id.ic_books:
-
-                        break;
-
-                    case R.id.ic_center_focus:
-                        Intent intent3 = new Intent(MainActivity.this, MemoActivity.class);
-                        startActivity(intent3);
-                        break;
-
-                    case R.id.ic_backup:
-                        Intent intent4 = new Intent(MainActivity.this, EtcActivity.class);
-                        startActivity(intent4);
-                        break;
-                }
-
-
-                return false;
-            }
-        });
-
     }
 
     @Override
@@ -673,6 +620,4 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             super(cr);
         }
     }
-
-
 }

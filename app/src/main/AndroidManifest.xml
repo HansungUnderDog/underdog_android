@@ -39,11 +39,6 @@
             android:label="signup" />
         <activity android:name=".TabActivity"></activity>
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".timeline.TimelineActivity"></activity>
-        <activity android:name=".memo.MemoActivity"></activity>
-        <activity android:name=".memo.MemoEdit"
-            android:windowSoftInputMode="adjustUnspecified"/>
-        <activity android:name=".etc.EtcActivity"></activity>
         <activity android:name=".EditActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
