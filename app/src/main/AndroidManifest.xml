@@ -24,13 +24,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity_2">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".login.LoginActivity"
             android:label="login" />
@@ -38,18 +31,42 @@
             android:name=".login.SignupActivity"
             android:label="signup" />
         <activity android:name=".TabActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity"/>
+
+        <activity android:name=".etc.EtcActivity"></activity>
         <activity android:name=".timeline.TimelineActivity"></activity>
         <activity android:name=".memo.MemoActivity"></activity>
-        <activity android:name=".memo.MemoEdit"
-            android:windowSoftInputMode="adjustUnspecified"/>
-        <activity android:name=".etc.EtcActivity"></activity>
+
+        <activity android:name=".login.MainActivity_2">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
         <activity android:name=".EditActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
 
         <receiver android:name=".weather.WeatherSyncAlarmReceiver" />
         <service android:name=".weather.WeatherSyncService" />
+
+        <activity
+            android:name=".memo.CreateNote"
+            android:label="@string/title_activity_create_note">
+        </activity>
+        <activity
+            android:name=".memo.View_Note"
+            android:label="@string/title_activity_information">
+        </activity>
+        <activity
+            android:name=".memo.Edit_Note"
+            android:label="@string/title_activity_edit__note">
+        </activity>
+
     </application>
+
 
 </manifest>

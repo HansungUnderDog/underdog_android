@@ -36,6 +36,8 @@ public class SearchFragment extends Fragment {
         System.out.println("위에서 호출됨"+search);
         View view=inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
+        Bundle extara = getArguments();
+        search = extara.getString("search");
         searchWebView.loadUrl("https://m.search.naver.com/search.naver?query=" + search + "&where=m&sm=mtp_hty");
 
         // Enable Javascript

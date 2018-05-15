@@ -4,87 +4,85 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:background="@drawable/notelist">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/notelist">
-        <TextView
-            android:id="@+id/textViewTop"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:paddingBottom="35dp" />
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/btmLayout"
-            android:layout_below="@+id/textViewTop"
-            android:background="#FFF9C8"
-            android:divider="#D3D3D3"
-            android:dividerHeight="1sp"
-            android:footerDividersEnabled="true" />
-
-        <LinearLayout
-            android:id="@+id/btmLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="10dp">
-
-            <Button
-                android:id="@+id/addnotebutton"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/create_note" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <android.support.v4.widget.DrawerLayout
+            android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/bottomBar"
-            android:layout_alignParentBottom="true">
+            android:layout_height="match_parent">
 
-            <android.support.design.widget.BottomNavigationView
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/coordinator_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/bottomNavView_Bar"
-                android:background="@drawable/white_grey_border_top"
-                app:menu="@menu/bottom_navigation_menu">
+                tools:context=".MainActivity">
+
+                <android.support.design.widget.AppBarLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:showIn="@layout/activity_memo">
+
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbarMemo"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                        android:background="?attr/colorPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
 
-            </android.support.design.widget.BottomNavigationView>
-        </RelativeLayout>
+                    </android.support.v7.widget.Toolbar>
+
+                </android.support.design.widget.AppBarLayout>
+
+            </android.support.design.widget.CoordinatorLayout>
+        </android.support.v4.widget.DrawerLayout>
 
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            >
 
+            <TextView
+                android:id="@+id/textViewTop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingBottom="35dp" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:id="@+id/commentslist"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/bottomBar"
+        android:layout_alignParentBottom="true">
+
+        <android.support.design.widget.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/bottomNavView_Bar"
+            android:background="@drawable/white_grey_border_top"
+            app:menu="@menu/bottom_navigation_menu">
+
+
+        </android.support.design.widget.BottomNavigationView>
     </RelativeLayout>
 
-
-
-
-
-
-
-
-
-
-
-
-
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

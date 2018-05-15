@@ -1,5 +1,18 @@
 <resources>
 
+    <style name="MemoTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/blue500</item>
+        <item name="colorPrimaryDark">@color/blue700</item>
+        <item name="colorAccent">@color/greenA700</item>
+    </style>
+
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/blue500</item>
+        <item name="colorPrimaryDark">@color/blue700</item>
+        <item name="colorAccent">@color/greenA700</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -54,5 +67,8 @@
     <style name="Widget.AppTheme.Drawer">
         <item name="android:layout_width">match_parent</item>
     </style>
+
+    <color name="selected">#824986</color>
+    <color name="unselected">#E4DFEC</color>
 
 </resources>

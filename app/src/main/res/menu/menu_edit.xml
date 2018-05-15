@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_save"
-        android:title="@string/save"
+        android:title="@string/saveNote"
         app:showAsAction="ifRoom" />
 
     <item

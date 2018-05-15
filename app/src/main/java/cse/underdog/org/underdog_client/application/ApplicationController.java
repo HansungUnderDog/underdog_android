@@ -2,11 +2,14 @@ package cse.underdog.org.underdog_client.application;
 
 import android.app.Application;
 
+import cse.underdog.org.underdog_client.network.AddCookiesInterceptor;
 import cse.underdog.org.underdog_client.network.NetworkService;
 
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 
+import cse.underdog.org.underdog_client.network.PersistentCookieStore;
+import cse.underdog.org.underdog_client.network.ReceivedCookiesInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,12 +41,20 @@ public class ApplicationController extends Application {
     }
 
     public void buildService() {
+        PersistentCookieStore cookieStore = new PersistentCookieStore(this);
+        CookieManager cookieManager = new CookieManager(cookieStore, CookiePolicy.ACCEPT_ALL);
+        AddCookiesInterceptor in1 = new AddCookiesInterceptor(this);
+        ReceivedCookiesInterceptor in2 = new ReceivedCookiesInterceptor(this);
 //return OkHttpClient
 
         Retrofit.Builder builder = new Retrofit.Builder();
         Retrofit retrofit = builder
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+                /*.client(new OkHttpClient.Builder()
+                        .addNetworkInterceptor(in1)
+                        .addInterceptor(in2)
+                        .build())*/
                 .build();
 
         networkService = retrofit.create(NetworkService.class);

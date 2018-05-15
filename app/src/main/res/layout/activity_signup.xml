@@ -1,93 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:layout_marginTop="30.5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
 
-        <EditText
-            android:id="@+id/edittext_signup_email"
-            android:layout_width="200dp"
-            android:layout_height="45.15dp"
-            android:hint="email"
-            android:inputType="textEmailAddress" />
-
-        <Button
-            android:id="@+id/button_signup_email"
+        <ImageView android:src="@drawable/ic_android"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="중복확인" />
+            android:layout_height="72dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="30.5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edittext_signup_nickname"
-            android:layout_width="200dp"
-            android:layout_height="45.15dp"
-            android:hint="nickname"
-            android:inputType="textPassword" />
-
-        <Button
-            android:id="@+id/button_signup_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="중복확인" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="30.5dp"
-        android:layout_width="267.2dp"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edittext_signup_password"
+        <!--  Name Label -->
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="45.15dp"
-            android:layout_marginLeft="80dp"
-            android:background="@null"
-            android:ems="8"
-            android:hint="PW"
-            android:inputType="textPassword"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="Name" />
+        </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
-        android:layout_marginTop="30.5dp"
-        android:layout_width="267.2dp"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edittext_signup_passwordre"
+        <!-- Email Label -->
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="45.15dp"
-            android:layout_marginLeft="80dp"
-            android:background="@null"
-            android:ems="8"
-            android:hint="PW확인"
-            android:inputType="textPassword"
-            android:textColor="#FFFFFF" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Email" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Password Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Password"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Signup Button -->
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_signup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Create Account"/>
+
+        <TextView android:id="@+id/link_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Already a member? Login"
+            android:gravity="center"
+            android:textSize="16dip"/>
+
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/button_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="41.5dp"
-        android:text="회원가입"
-        android:textColor="#FFFFFF" />
-
-
-</LinearLayout>
+</ScrollView>

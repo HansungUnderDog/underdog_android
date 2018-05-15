@@ -1,5 +1,7 @@
 package cse.underdog.org.underdog_client.etc;
 
+import android.app.ActionBar;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +46,7 @@ public class EtcActivity extends AppCompatActivity{
     @BindView(R.id.tv)
     TextView tv;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,15 +80,15 @@ public class EtcActivity extends AppCompatActivity{
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*View search = getLayoutInflater().inflate(R.layout.fragment_etc, null);
+                //View search = getLayoutInflater().inflate(R.layout.fragment_etc, null);
                 Bundle bundle = new Bundle();
                 bundle.putString("search", search);
                 Fragment searchFragment = new SearchFragment();
+                searchFragment = new SearchFragment();
                 searchFragment.setArguments(bundle);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.etcLayout, searchFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();*/
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.etcLayout, searchFragment, searchFragment.getClass().getSimpleName()).addToBackStack(null).commit();
             }
         });
 
@@ -122,6 +125,7 @@ public class EtcActivity extends AppCompatActivity{
                 return false;
             }
         });
+
     }
 
     @Override

@@ -2,16 +2,19 @@ package cse.underdog.org.underdog_client.login;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cse.underdog.org.underdog_client.LoginUserInfo;
 import cse.underdog.org.underdog_client.MainActivity;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.TabActivity;
@@ -24,17 +27,18 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private final String TAG = "Login";
-    @BindView(R.id.edittext_login_email)
+    private static final int REQUEST_SIGNUP = 0;
+    @BindView(R.id.input_email)
     EditText editTextEmail;
 
-    @BindView(R.id.edittext_login_password)
+    @BindView(R.id.input_password)
     EditText editTextPassword;
 
-    @BindView(R.id.imagebutton_login_login)
+    @BindView(R.id.btn_login)
     Button imageButtonLogin;
 
-    @BindView(R.id.imagebutton_login_signup)
-    Button imageButtonSignup;
+    @BindView(R.id.link_signup)
+    TextView imageButtonSignup;
 
     private NetworkService service;
 
@@ -58,16 +62,44 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         imageButtonSignup.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Start the Signup activity
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivityForResult(intent, REQUEST_SIGNUP);
+            }
+        });
+
+        /*imageButtonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), SignupActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
 
-
+        SharedPreferences sp;
+        sp = getSharedPreferences("user", MODE_PRIVATE);
+        String remainEmail = sp.getString("email", null);
+        if (remainEmail != null) {
+            checkLogin(remainEmail, sp.getString("password", null), true);
+        }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SIGNUP) {
+            if (resultCode == RESULT_OK) {
+
+                // TODO: Implement successful signup logic here
+                // By default we just finish the Activity and log them in automatically
+                this.finish();
+            }
+        }
+    }
+
     public void checkLogin() {
         this.checkLogin(null, null, false);
     }
@@ -98,8 +130,27 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("response.body" + response.body().stat);
+
+
                     if (response.body().stat.equals("success")) {
+                        System.out.println("response.body" + response.body().stat);
+                        LoginResult userObj = new LoginResult(response.body().data, response.body().stat);
+                        LoginUserInfo.getInstance().setUserInfo(userObj.data);
+                        SharedPreferences userInfo;
+                        userInfo = getSharedPreferences("user", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = userInfo.edit();
+
+                        if (!isAuto) {
+                            editor.putString("email", editTextEmail.getText().toString());
+                            editor.putString("password", editTextPassword.getText().toString());
+                            editor.putInt("user_id", userObj.data.user_id);
+                            editor.putString("nickname", userObj.data.nickname);
+                            editor.putString("cookie", "" + response.headers().size());
+                        }
+                        Log.d(TAG, response.headers().toString());
+                        Log.d(TAG, editTextEmail.getText().toString());
+                        editor.commit();
+
                         System.out.println("hihihihi");
                         Intent intent = new Intent(getBaseContext(), TimelineActivity.class);
                         startActivity(intent);

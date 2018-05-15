@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +28,7 @@ import cse.underdog.org.underdog_client.memo.MemoActivity;
 import cse.underdog.org.underdog_client.speech.SttService;
 import cse.underdog.org.underdog_client.speech.TtsService;
 
-public class TimelineActivity extends ActivityGroup {
+public class TimelineActivity extends AppCompatActivity {
     // gps, stt, tts Test code
     private String result;
     private Gps gps;
@@ -185,7 +186,7 @@ public class TimelineActivity extends ActivityGroup {
 
     @Override
     public void onDestroy() {
-        tts.ttsExit();
+        //tts.ttsExit();
         super.onDestroy();
     }
 
