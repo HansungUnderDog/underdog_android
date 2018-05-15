@@ -2,6 +2,7 @@ package cse.underdog.org.underdog_client.timeline;
 
 import android.Manifest;
 import android.app.ActivityGroup;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import cse.underdog.org.underdog_client.BottomNavigationViewHelper;
 import cse.underdog.org.underdog_client.MainActivity;
 import cse.underdog.org.underdog_client.R;
+import cse.underdog.org.underdog_client.alarm.AlarmReceiver;
 import cse.underdog.org.underdog_client.etc.EtcActivity;
 import cse.underdog.org.underdog_client.location_GPS.Gps;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
@@ -36,7 +38,9 @@ public class TimelineActivity extends ActivityGroup {
     private Button sttBtn;
     private Button ttsBtn;
     private Button gpsBtn;
+    private Button alarmBtn;
     private TextView tv;
+    private Context context;
 
     private TextView txtLat;
     private TextView txtLon;
@@ -51,14 +55,26 @@ public class TimelineActivity extends ActivityGroup {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        context = this.getApplicationContext();
         sttBtn = (Button) findViewById(R.id.stt_btn);
         ttsBtn = (Button) findViewById(R.id.tts_btn);
         gpsBtn = (Button) findViewById(R.id.gps_btn);
+        alarmBtn = (Button) findViewById(R.id.alarm_Btn);
         txtLat = (TextView) findViewById(R.id.tv_latitude);
         txtLon = (TextView) findViewById(R.id.tv_longtitude);
         tv = (TextView) findViewById(R.id.tv);
         stt = new SttService();
-        //tts = new TtsService();
+        tts = new TtsService(context);
+
+        alarmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "alarm running", Toast.LENGTH_LONG).show();
+                AlarmReceiver ar = new AlarmReceiver();
+                ar.setAlarmClass(context);
+                ar.setAlarm();
+            }
+        });
 
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override

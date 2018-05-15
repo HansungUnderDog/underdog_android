@@ -48,8 +48,15 @@
             android:windowSoftInputMode="adjustResize">
         </activity>
 
+        <receiver android:name=".alarm.AlarmReceiver" /><!--android:exported="true">
+            <Intent-filter>
+                <action android:name="android.intent.action.HEADSET_PLUG" />
+            </Intent-filter>>
+        </receiver>-->
         <receiver android:name=".weather.WeatherSyncAlarmReceiver" />
         <service android:name=".weather.WeatherSyncService" />
+
     </application>
+
 
 </manifest>

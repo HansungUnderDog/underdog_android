@@ -47,7 +47,7 @@ public class SttService {
 // *************************
 //  Use Manual in Activity
 // *************************
-    String result; // Create String Object to receive return of stt
+    String result; // Create String Object to receive return Object of stt
     SttService stt = new SttService(); // Create Stt object
     startActivityForResult(stt.getIntent(), stt.getREQ()); // start stt
 

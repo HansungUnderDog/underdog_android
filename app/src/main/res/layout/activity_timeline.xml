@@ -60,6 +60,11 @@
                         android:layout_height="wrap_content"
                         android:text="gps 조회"
                         android:id="@+id/gps_btn"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="알람"
+                        android:id="@+id/alarm_Btn"/>
 
                 </LinearLayout>
 
