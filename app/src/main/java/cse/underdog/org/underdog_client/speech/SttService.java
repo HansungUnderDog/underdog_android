@@ -16,7 +16,7 @@ public class SttService {
         i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "말해주세요");
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "xx 검색해줘 라고 말해주세요.");
     }
     public Intent getIntent() {
         return i;
