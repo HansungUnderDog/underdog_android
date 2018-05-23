@@ -25,7 +25,7 @@
     <string name="morning">Morning</string>
     <string name="afternoon">Afternoon</string>
     <string name="night">Night</string>
-    <string name="fahrenheit">%1$.1f\u00b0F</string>
+    <string name="fahrenheit">%1$.1f\u00b0C</string>
     <string name="show_weather">Show weather</string>
     <string name="updating_weather" tools:ignore="TypographyEllipsis">Updating weather information...</string>
     <string name="location_permission_required">Updating weather requires location access</string>
@@ -92,4 +92,7 @@
     <string name="ok">Ok</string>
     <string name="title_msg">title</string>
     <string name="titttle">title</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

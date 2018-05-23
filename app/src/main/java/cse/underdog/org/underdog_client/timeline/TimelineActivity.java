@@ -202,7 +202,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        //tts.ttsExit();
+        tts.ttsExit();
         super.onDestroy();
     }
 
