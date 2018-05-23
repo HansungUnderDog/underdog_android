@@ -30,17 +30,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckedTextView;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 
 import cse.underdog.org.underdog_client.etc.EtcActivity;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
@@ -118,8 +122,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         getSupportActionBar().setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
         setUpContentView();
-
-
+        
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -306,6 +309,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switch (loader.getId()) {
             case LOADER_CALENDARS:
                 if (data != null && data.moveToFirst()) {
+                    for(int i=0; i<data.getColumnCount(); i++) {
+                        Log.i("온로드", data.getColumnName(i));
+                    }
                     mCalendarSelectionView.swapCursor(new CalendarCursor(data), mExcludedCalendarIds);
                 }
                 break;
@@ -644,6 +650,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         protected void handleQueryComplete(int token, Object cookie, EventCursor cursor) {
             mAgendaCursorAdapter.bindEvents((Long) cookie, cursor);
+
         }
     }
 
