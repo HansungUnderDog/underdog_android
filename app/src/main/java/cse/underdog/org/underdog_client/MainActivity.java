@@ -38,19 +38,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckedTextView;
-import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
-<<<<<<< HEAD
 import java.util.Iterator;
-=======
->>>>>>> 4fa6a5d195c4e7a95abf6f8d136d51d10b1cef8c
 import java.util.Map;
 
 import cse.underdog.org.underdog_client.etc.EtcActivity;

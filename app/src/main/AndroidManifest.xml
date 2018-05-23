@@ -18,13 +18,8 @@
     <application
         android:name=".application.ApplicationController"
         android:allowBackup="true"
-<<<<<<< HEAD
         android:icon="@mipmap/app_logo"
         android:fullBackupContent="@xml/backup"
-=======
-        android:fullBackupContent="@xml/backup"
-        android:icon="@mipmap/app_logo"
->>>>>>> 4fa6a5d195c4e7a95abf6f8d136d51d10b1cef8c
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
