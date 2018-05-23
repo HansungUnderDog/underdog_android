@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 public class Gps extends Service implements LocationListener{
 
@@ -72,6 +73,8 @@ public class Gps extends Service implements LocationListener{
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // GPS 와 네트워크사용이 가능하지 않을때 소스 구현
+                Toast.makeText(getApplicationContext(), "GPS를 사용할 수 없습니다. GPS on/off 여부를 확인해주세요.", Toast.LENGTH_LONG).show();
+                return null;
             } else {
                 this.isGetLocation = true;
                 // 네트워크 정보로 부터 위치값 가져오기

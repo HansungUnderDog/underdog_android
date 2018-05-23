@@ -235,7 +235,7 @@ public class WeatherSyncService extends IntentService {
         String BASE_URL = "https://api.forecast.io/";
 
         @GET("forecast/" + BuildConfig.FORECAST_IO_API_KEY +
-                "/{latitude},{longitude},{time}?exclude=currently,daily,flags")
+                "/{latitude},{longitude},{time}?units=si")//?exclude=currently,daily,flags
         Call<Forecast> forecast(@Path("latitude") double latitude,
                                 @Path("longitude") double longitude,
                                 @Path("time") long timeSeconds);

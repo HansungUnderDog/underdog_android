@@ -34,11 +34,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import java.sql.Time;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -672,6 +670,4 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             super(cr);
         }
     }
-
-
 }
