@@ -55,10 +55,14 @@ public class MemoActivity extends AppCompatActivity {
 
     ListView list;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_memo);
+
 
         service = ApplicationController.getInstance().getNetworkService();
 
@@ -121,11 +125,27 @@ public class MemoActivity extends AppCompatActivity {
 
             }
         });*/
-        MemoAdapter memoAdapter = new MemoAdapter(this,R.layout.activity_memo,memos);
+        MemoAdapter memoAdapter = new MemoAdapter(this,R.layout.list_entry,memos);
         list.setAdapter(memoAdapter);
 
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getMemo();
+
+        list = (ListView)findViewById(R.id.commentslist);
+        /*list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });*/
+        MemoAdapter memoAdapter = new MemoAdapter(this,R.layout.list_entry,memos);
+        list.setAdapter(memoAdapter);
     }
 
     @Override
@@ -154,6 +174,7 @@ public class MemoActivity extends AppCompatActivity {
         }
     }
 
+
     public void getMemo() {
         //MemoInfo info = new MemoInfo();
         Call<MemoResult> showMemo = service.showMemo();
@@ -168,6 +189,7 @@ public class MemoActivity extends AppCompatActivity {
 
                         for(int i=0; i<response.body().data.size(); i++){
                             memos.add(response.body().data.get(i));
+                            System.out.println("메모있나" + memos.get(i).context);
                         }
                     }
                 }else{
@@ -179,7 +201,7 @@ public class MemoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MemoResult> call, Throwable t) {
-                Toast.makeText(getBaseContext(), "통신 에러", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "통신 에러MemoActivity", Toast.LENGTH_SHORT).show();
                 Log.e("fail", t.getMessage());
             }
         });

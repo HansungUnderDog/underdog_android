@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,14 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +38,25 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        /*String keyword = "how to make apple pie filling";
+        keyword = keyword.replace(" ", "+");
+
+        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=" + keyword + "&key=YOUR_YOUTUBE_API_KEY";
+
+        try {
+            Document doc = Jsoup.connect(url).timeout(10 * 1000).get();
+            String getJson = doc.text();
+            try {
+                JSONObject jsonObject = (JSONObject) new JSONTokener(getJson ).nextValue();
+                System.out.println("비디오아이디"+jsonObject.getString("videoId"));
+            } catch (JSONException e) {
+                Log.e("MYAPP", "unexpected JSON exception", e);
+                // Do something to recover ... or kill the app.
+            }
+        } catch (IOException e) {
+
+        }*/
        // stt = new SttService();
        // startActivityForResult(stt.getIntent(), stt.getREQ());
         getSearch();

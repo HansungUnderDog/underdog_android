@@ -2,15 +2,15 @@ package cse.underdog.org.underdog_client.application;
 
 import android.app.Application;
 
-import cse.underdog.org.underdog_client.network.AddCookiesInterceptor;
 import cse.underdog.org.underdog_client.network.NetworkService;
 
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.concurrent.TimeUnit;
+import okhttp3.JavaNetCookieJar;
+import okhttp3.OkHttpClient;
 
 import cse.underdog.org.underdog_client.network.PersistentCookieStore;
-import cse.underdog.org.underdog_client.network.ReceivedCookiesInterceptor;
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -43,18 +43,14 @@ public class ApplicationController extends Application {
     public void buildService() {
         PersistentCookieStore cookieStore = new PersistentCookieStore(this);
         CookieManager cookieManager = new CookieManager(cookieStore, CookiePolicy.ACCEPT_ALL);
-        AddCookiesInterceptor in1 = new AddCookiesInterceptor(this);
-        ReceivedCookiesInterceptor in2 = new ReceivedCookiesInterceptor(this);
+
 //return OkHttpClient
 
         Retrofit.Builder builder = new Retrofit.Builder();
         Retrofit retrofit = builder
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                /*.client(new OkHttpClient.Builder()
-                        .addNetworkInterceptor(in1)
-                        .addInterceptor(in2)
-                        .build())*/
+                .client(new OkHttpClient().newBuilder() .connectTimeout(10, TimeUnit.SECONDS) .writeTimeout(10, TimeUnit.SECONDS) .readTimeout(10, TimeUnit.SECONDS) .cookieJar(new JavaNetCookieJar(cookieManager)) .build())
                 .build();
 
         networkService = retrofit.create(NetworkService.class);

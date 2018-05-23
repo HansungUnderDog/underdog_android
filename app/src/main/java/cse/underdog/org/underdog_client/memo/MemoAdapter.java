@@ -13,14 +13,12 @@ import cse.underdog.org.underdog_client.R;
 
 public class MemoAdapter extends BaseAdapter {
     LayoutInflater inflater;
-    Context context;
     int layout;
     ArrayList<MemoInfo> memoInfos;
     public MemoAdapter(Context context, int layout, ArrayList<MemoInfo> memoInfos){
-        this.context = context;
         this.layout = layout;
         this.memoInfos = memoInfos;
-        inflater = LayoutInflater.from(context);
+        this.inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -30,7 +28,7 @@ public class MemoAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return memoInfos.get(i);
+        return memoInfos.get(i).getContext();
     }
 
     @Override
@@ -46,8 +44,9 @@ public class MemoAdapter extends BaseAdapter {
 
         MemoInfo memoInfo = memoInfos.get(i);
 
-        TextView context = (TextView)view.findViewById(R.id.memo_title);
-        context.setText(memoInfo.getContext());
+        TextView contextView = (TextView)view.findViewById(R.id.memo_title);
+        System.out.println("메모인포다"+memoInfo.getContext());
+        contextView.setText(memoInfo.getContext());
         return view;
     }
 }

@@ -39,7 +39,7 @@ public class MainActivity_2 extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Handler handler = new Handler() {
+                /*Handler handler = new Handler() {
                     public void handleMessage(Message msg) {
                         SharedPreferences userInfo;
                         userInfo = getSharedPreferences("user", MODE_PRIVATE);
@@ -57,12 +57,12 @@ public class MainActivity_2 extends AppCompatActivity {
 
                         } else {
                             checkLogin(remainEmail, userInfo.getString("password", null));
-                        }
+                        }*//*
                     }
                 };
 
                 handler.sendEmptyMessageDelayed(0, 3000);
-
+*/
 
                 Intent intent = new Intent(MainActivity_2.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

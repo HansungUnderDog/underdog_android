@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
         service = ApplicationController.getInstance().getNetworkService();
 
+
         imageButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,17 +134,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     if (response.body().stat.equals("success")) {
-                        System.out.println("response.body" + response.body().stat);
                         LoginResult userObj = new LoginResult(response.body().data, response.body().stat);
                         LoginUserInfo.getInstance().setUserInfo(userObj.data);
                         SharedPreferences userInfo;
-                        userInfo = getSharedPreferences("user", MODE_PRIVATE);
+                        userInfo = getSharedPreferences("users", MODE_PRIVATE);
                         SharedPreferences.Editor editor = userInfo.edit();
 
                         if (!isAuto) {
                             editor.putString("email", editTextEmail.getText().toString());
-                            editor.putString("password", editTextPassword.getText().toString());
-                            editor.putInt("user_id", userObj.data.user_id);
+                            editor.putString("pwd", editTextPassword.getText().toString());
                             editor.putString("nickname", userObj.data.nickname);
                             editor.putString("cookie", "" + response.headers().size());
                         }

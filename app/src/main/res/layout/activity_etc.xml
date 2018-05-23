@@ -37,10 +37,22 @@
                 android:id="@+id/weatherBtn"/>
 
             <Button
+                android:id="@+id/goBtn1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Go"
-                android:id="@+id/goBtn"/>
+                android:text="Go1" />
+
+            <Button
+                android:id="@+id/goBtn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go2" />
+
+            <Button
+                android:id="@+id/goBtn3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go3" />
 
             <TextView
                 android:id="@+id/tv"
