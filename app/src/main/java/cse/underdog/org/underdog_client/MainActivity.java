@@ -38,14 +38,19 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckedTextView;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
+<<<<<<< HEAD
 import java.util.Iterator;
+=======
+>>>>>>> 4fa6a5d195c4e7a95abf6f8d136d51d10b1cef8c
 import java.util.Map;
 
 import cse.underdog.org.underdog_client.etc.EtcActivity;
@@ -126,8 +131,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         getSupportActionBar().setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
         setUpContentView();
-
-
+        
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -334,6 +338,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switch (loader.getId()) {
             case LOADER_CALENDARS:
                 if (data != null && data.moveToFirst()) {
+                    for(int i=0; i<data.getColumnCount(); i++) {
+                        Log.i("온로드", data.getColumnName(i));
+                    }
                     mCalendarSelectionView.swapCursor(new CalendarCursor(data), mExcludedCalendarIds);
                     //EventCursor ec = new EventCursor(data);
                     for(int i=0; i<data.getColumnCount(); i++) {

@@ -3,6 +3,9 @@ package cse.underdog.org.underdog_client.content;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.provider.CalendarContract;
+import android.util.Log;
+
+import cse.underdog.org.underdog_client.MainActivity;
 
 /**
  * {@link android.provider.CalendarContract.Events} cursor wrapper
