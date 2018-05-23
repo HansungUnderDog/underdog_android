@@ -39,7 +39,7 @@
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/edit_text_title"
-            android:hint="@string/title"
+            android:hint="약속 내용"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -87,9 +87,21 @@
         android:layout_height="?attr/listPreferredItemHeight" />
 
     <View
+        android:id="@+id/row5"
+        android:layout_below="@id/row4"
+        android:layout_width="0dp"
+        android:layout_height="?attr/listPreferredItemHeight" />
+
+    <View
+        android:id="@+id/row6"
+        android:layout_below="@id/row5"
+        android:layout_width="0dp"
+        android:layout_height="?attr/listPreferredItemHeight" />
+
+    <View
         android:id="@+id/row45"
         android:background="@color/colorDivider"
-        android:layout_below="@id/row4"
+        android:layout_below="@id/row6"
         android:layout_alignLeft="@id/column2"
         android:layout_alignStart="@id/column2"
         android:layout_alignRight="@id/column3"
@@ -98,10 +110,12 @@
         android:layout_height="@dimen/divider_size" />
 
     <View
-        android:id="@+id/row5"
+        android:id="@+id/row7"
         android:layout_below="@id/row45"
         android:layout_width="0dp"
         android:layout_height="?attr/listPreferredItemHeight" />
+
+    <!--  ////////////////////////////////////////////////////////////////////////            -->
 
     <!-- Row 2 -->
     <ImageView
@@ -200,14 +214,61 @@
         android:layout_height="wrap_content" />
 
     <!-- Row 5 -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/text_input_person"
+        style="@style/Widget.AppTheme.EventEditView"
+        app:hintTextAppearance="@style/TextAppearance.AppTheme.Hint.Disabled"
+        app:hintAnimationEnabled="false"
+        android:layout_alignTop="@id/row5"
+        android:layout_alignBottom="@id/row5"
+        android:layout_alignLeft="@id/column2"
+        android:layout_alignStart="@id/column2"
+        android:layout_alignRight="@id/column3"
+        android:layout_alignEnd="@id/column3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edit_text_person"
+            android:hint="약속 상대"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <!-- Row 6 -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/text_input_place"
+        style="@style/Widget.AppTheme.EventEditView"
+        app:hintTextAppearance="@style/TextAppearance.AppTheme.Hint.Disabled"
+        app:hintAnimationEnabled="false"
+        android:layout_alignTop="@id/row6"
+        android:layout_alignBottom="@id/row6"
+        android:layout_alignLeft="@id/column2"
+        android:layout_alignStart="@id/column2"
+        android:layout_alignRight="@id/column3"
+        android:layout_alignEnd="@id/column3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edit_text_place"
+            android:hint="약속 장소"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <!-- Row 7 -->
     <ImageView
         android:src="@drawable/ic_event_white_24dp"
         tools:src="@drawable/ic_event_white_24dp"
         android:tint="?android:attr/textColorHint"
         android:scaleType="center"
         android:contentDescription="@string/event_calendar"
-        android:layout_alignTop="@id/row5"
-        android:layout_alignBottom="@id/row5"
+        android:layout_alignTop="@id/row7"
+        android:layout_alignBottom="@id/row7"
         android:layout_alignLeft="@id/column1"
         android:layout_alignStart="@id/column1"
         android:layout_alignRight="@id/column1"
@@ -222,8 +283,8 @@
         android:hint="@string/choose_calendar"
         style="@style/Widget.AppTheme.EventEditView.TextView.Selectable"
         android:freezesText="true"
-        android:layout_alignTop="@id/row5"
-        android:layout_alignBottom="@id/row5"
+        android:layout_alignTop="@id/row7"
+        android:layout_alignBottom="@id/row7"
         android:layout_alignLeft="@id/column2"
         android:layout_alignStart="@id/column2"
         android:layout_alignRight="@id/column3"

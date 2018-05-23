@@ -213,6 +213,8 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         cv.put(CalendarContract.Events.EVENT_END_TIMEZONE, event.getTimeZone());
         cv.put(CalendarContract.Events.EVENT_TIMEZONE, event.getTimeZone());
         cv.put(CalendarContract.Events.CALENDAR_ID, event.getCalendarId());
+        cv.put(CalendarContract.Events.EVENT_LOCATION, event.getPlace());
+        cv.put(CalendarContract.Events.HAS_ATTENDEE_DATA, event.getPerson());
         if (event.hasId()) {
             Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI,
                     event.getId());

@@ -438,7 +438,9 @@ public abstract class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.R
         if (!(eventItem instanceof NoEventItem)) {
             eventBuilder.id(eventItem.mId)
                     .calendarId(eventItem.mCalendarId)
-                    .title(eventItem.mTitle);
+                    .title(eventItem.mTitle)
+                    .person(eventItem.mPerson)
+                    .place(eventItem.mPlace);
         }
         context.startActivity(new Intent(context, EditActivity.class)
                 .putExtra(EditActivity.EXTRA_EVENT, eventBuilder.build()));
@@ -699,6 +701,8 @@ public abstract class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.R
         long mEndTimeMillis;
         boolean mIsAllDay;
         int mDisplayType = DISPLAY_TYPE_START_TIME;
+        String mPerson;
+        String mPlace;
 
         EventItem(long timeMillis, EventCursor cursor) {
             super(cursor.getTitle(), timeMillis);
@@ -712,6 +716,8 @@ public abstract class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.R
                 mStartTimeMillis = CalendarUtils.toLocalTimeZone(mStartTimeMillis);
                 mEndTimeMillis = CalendarUtils.toLocalTimeZone(mEndTimeMillis);
             }
+            mPerson = cursor.getPerson();
+            mPlace = cursor.getPlace();
             setDisplayType();
         }
 
@@ -727,6 +733,8 @@ public abstract class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.R
             mEndTimeMillis = source.readLong();
             mIsAllDay = source.readInt() == 1;
             mDisplayType = source.readInt();
+            mPerson = source.readString();
+            mPlace = source.readString();
         }
 
         @Override
@@ -738,6 +746,8 @@ public abstract class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.R
             dest.writeLong(mEndTimeMillis);
             dest.writeInt(mIsAllDay ? 1 : 0);
             dest.writeInt(mDisplayType);
+            dest.writeString(mPerson);
+            dest.writeString(mPlace);
         }
 
         private void setDisplayType() {

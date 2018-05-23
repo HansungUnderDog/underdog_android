@@ -42,7 +42,7 @@ public class MainActivity_2 extends AppCompatActivity {
                 /*Handler handler = new Handler() {
                     public void handleMessage(Message msg) {
                         SharedPreferences userInfo;
-                        userInfo = getSharedPreferences("user", MODE_PRIVATE);
+                        userInfo = getSharedPreferences("users", MODE_PRIVATE);
                         String remainEmail = userInfo.getString("email", null);
                         if (remainEmail == null) {
                             Log.d(TAG, "no cookies received");
@@ -56,7 +56,7 @@ public class MainActivity_2 extends AppCompatActivity {
                             finish();
 
                         } else {
-                            checkLogin(remainEmail, userInfo.getString("password", null));
+                            checkLogin(remainEmail, userInfo.getString("pwd", null));
                         }*//*
                     }
                 };
@@ -73,20 +73,8 @@ public class MainActivity_2 extends AppCompatActivity {
 
     }
 
-    public void checkLogin(String email, String password) {
-
-        if (email.equals("")) {
-            //이메일 미입력
-            Toast.makeText(getBaseContext(), "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (password.equals("")) {
-            //이메일 미입력
-            Toast.makeText(getBaseContext(), "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        LoginInfo info = new LoginInfo(email, password);
+    public void checkLogin(String email, String pwd) {
+        LoginInfo info = new LoginInfo(email, pwd);
         //회원 체크
         Call<LoginResult> checkLogin = service.checkLogin(info);
         checkLogin.enqueue(new Callback<LoginResult>() {
@@ -100,7 +88,7 @@ public class MainActivity_2 extends AppCompatActivity {
                         LoginResult userObj = new LoginResult(response.body().data, response.body().stat);
                         LoginUserInfo.getInstance().setUserInfo(userObj.data);
                         SharedPreferences userInfo;
-                        userInfo = getSharedPreferences("user", MODE_PRIVATE);
+                        userInfo = getSharedPreferences("users", MODE_PRIVATE);
 
                         SharedPreferences.Editor editor = userInfo.edit();
 
@@ -121,13 +109,6 @@ public class MainActivity_2 extends AppCompatActivity {
                         startActivity(intent);
                     } else{
                         Toast.makeText(getBaseContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
-                    /*System.out.println("failfaifli");
-                    System.out.println(response.body());
-                    if (response.body().stat.equals("nonidfail")) {
-                        Toast.makeText(getBaseContext(), "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
-                    } else if (response.body().stat.equals("pwdfail")) {
-                        Toast.makeText(getBaseContext(), "회원가입되지 않은 회원 정보입니다.", Toast.LENGTH_SHORT).show();
-                    } */
                     }
 
                 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,14 +23,24 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import cse.underdog.org.underdog_client.BottomNavigationViewHelper;
+import cse.underdog.org.underdog_client.LoginUserInfo;
 import cse.underdog.org.underdog_client.MainActivity;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.alarm.AlarmReceiver;
+import cse.underdog.org.underdog_client.application.ApplicationController;
 import cse.underdog.org.underdog_client.etc.EtcActivity;
 import cse.underdog.org.underdog_client.location_GPS.Gps;
+import cse.underdog.org.underdog_client.login.LoginActivity;
+import cse.underdog.org.underdog_client.login.LoginInfo;
+import cse.underdog.org.underdog_client.login.LoginResult;
+import cse.underdog.org.underdog_client.login.LogoutResult;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
+import cse.underdog.org.underdog_client.network.NetworkService;
 import cse.underdog.org.underdog_client.speech.SttService;
 import cse.underdog.org.underdog_client.speech.TtsService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TimelineActivity extends AppCompatActivity {
     // gps, stt, tts Test code
@@ -42,6 +54,7 @@ public class TimelineActivity extends AppCompatActivity {
     private Button alarmBtn;
     private TextView tv;
     private Context context;
+    private Button logoutBtn;
 
     private TextView txtLat;
     private TextView txtLon;
@@ -50,6 +63,9 @@ public class TimelineActivity extends AppCompatActivity {
     private boolean isAccessFineLocation = false;
     private boolean isAccessCoarseLocation = false;
     private boolean isPermission = false;
+    private NetworkService service;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +82,9 @@ public class TimelineActivity extends AppCompatActivity {
         tv = (TextView) findViewById(R.id.tv);
         stt = new SttService();
         tts = new TtsService(context);
+        logoutBtn = (Button) findViewById(R.id.logout_btn);
+
+        service = ApplicationController.getInstance().getNetworkService();
 
         alarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +130,13 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(stt.getIntent(), stt.getREQ());
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkLogout();
             }
         });
 
@@ -204,6 +230,40 @@ public class TimelineActivity extends AppCompatActivity {
     public void onDestroy() {
         tts.ttsExit();
         super.onDestroy();
+    }
+
+    public void checkLogout() {
+
+        //회원 체크
+        Call<LogoutResult> checkLogout = service.checkLogout();
+        checkLogout.enqueue(new Callback<LogoutResult>() {
+            @Override
+            public void onResponse(Call<LogoutResult> call, Response<LogoutResult> response) {
+                if (response.isSuccessful()) {
+
+
+                    if (response.body().stat.equals("success")) {
+                        pref = getSharedPreferences("users",MODE_PRIVATE);
+                        editor = pref.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                }else{
+                    Toast.makeText(getBaseContext(), "로그아웃 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+
+            @Override
+            public void onFailure(Call<LogoutResult> call, Throwable t) {
+                Toast.makeText(getBaseContext(), "통신 에러", Toast.LENGTH_SHORT).show();
+                Log.e("fail", t.getMessage());
+            }
+        });
     }
 
 }

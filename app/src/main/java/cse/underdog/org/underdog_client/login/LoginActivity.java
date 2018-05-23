@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cse.underdog.org.underdog_client.LoginUserInfo;
@@ -82,11 +84,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
         SharedPreferences sp;
-        sp = getSharedPreferences("user", MODE_PRIVATE);
+        sp = getSharedPreferences("users", MODE_PRIVATE);
         String remainEmail = sp.getString("email", null);
         if (remainEmail != null) {
-            checkLogin(remainEmail, sp.getString("password", null), true);
+            checkLogin(remainEmail, sp.getString("pwd", null), true);
         }
+        Map<String, ?> stringMap = sp.getAll();
+        Log.e("쉐어드",stringMap.keySet().toString());
     }
 
     @Override
@@ -141,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = userInfo.edit();
 
                         if (!isAuto) {
+                            editor.putInt("user_id", userObj.data.user_id);
                             editor.putString("email", editTextEmail.getText().toString());
                             editor.putString("pwd", editTextPassword.getText().toString());
                             editor.putString("nickname", userObj.data.nickname);

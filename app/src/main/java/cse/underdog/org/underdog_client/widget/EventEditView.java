@@ -48,6 +48,10 @@ public class EventEditView extends RelativeLayout {
     private final TextView mTextViewCalendar;
     private final int[] mColors;
     private final int mTransparentColor;
+    private final TextInputLayout mTextInputPerson;
+    private final EditText mEditTextPerson;
+    private final TextInputLayout mTextInputPlace;
+    private final EditText mEditTextPlace;
     private Event mEvent = Event.createInstance();
     private CalendarCursor mCursor;
 
@@ -76,6 +80,10 @@ public class EventEditView extends RelativeLayout {
         mTextViewEndTime = (TextView) findViewById(R.id.text_view_end_time);
         mTextViewCalendar = (TextView) findViewById(R.id.text_view_calendar);
         mTransparentColor = ContextCompat.getColor(context, android.R.color.transparent);
+        mTextInputPerson = (TextInputLayout) findViewById(R.id.text_input_person);
+        mEditTextPerson = (EditText) findViewById(R.id.edit_text_person);
+        mTextInputPlace = (TextInputLayout) findViewById(R.id.text_input_place);
+        mEditTextPlace = (EditText) findViewById(R.id.edit_text_place);
         if (isInEditMode()) {
             mColors = new int[]{mTransparentColor};
         } else {
@@ -99,6 +107,10 @@ public class EventEditView extends RelativeLayout {
         setDate(false);
         setTime(true);
         setTime(false);
+        mEditTextPerson.setText(event.person);
+        mEditTextPerson.setSelection(mEditTextPerson.length());
+        mEditTextPlace.setText(event.place);
+        mEditTextPlace.setSelection(mEditTextPlace.length());
     }
 
     /**
@@ -128,6 +140,42 @@ public class EventEditView extends RelativeLayout {
     }
 
     private void setupViews() {
+        mTextInputPlace.setErrorEnabled(true);
+        mEditTextPlace.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                mEvent.place = s != null ? s.toString() : "";
+                System.out.println("장소 : "+mEvent.place);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        mTextInputPerson.setErrorEnabled(true);
+        mEditTextPerson.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                mEvent.person = s != null ? s.toString() : "";
+                System.out.println("사람 : "+mEvent.place);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         mTextInputTitle.setErrorEnabled(true);
         mEditTextTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -402,6 +450,16 @@ public class EventEditView extends RelativeLayout {
                 return this;
             }
 
+            public Builder person(String person){
+                event.person = person;
+                return this;
+            }
+
+            public Builder place(String place){
+                event.place = place;
+                return this;
+            }
+
             /**
              * Creates the {@link Event} that has been built by this builder
              * @return  an {@link Event} instance
@@ -419,6 +477,8 @@ public class EventEditView extends RelativeLayout {
         boolean isAllDay = false;
         final Calendar localStart = Calendar.getInstance();
         final Calendar localEnd = Calendar.getInstance();
+        String person;
+        String place;
 
         Event() {
             localStart.add(Calendar.HOUR_OF_DAY, 1);
@@ -434,6 +494,8 @@ public class EventEditView extends RelativeLayout {
             isAllDay = in.readByte() != 0;
             localStart.setTimeInMillis(in.readLong());
             localEnd.setTimeInMillis(in.readLong());
+            person = in.readString();
+            place = in.readString();
         }
 
         @Override
@@ -444,6 +506,8 @@ public class EventEditView extends RelativeLayout {
             dest.writeByte((byte) (isAllDay ? 1 : 0));
             dest.writeLong(localStart.getTimeInMillis());
             dest.writeLong(localEnd.getTimeInMillis());
+            dest.writeString(person);
+            dest.writeString(place);
         }
 
         @Override
@@ -489,6 +553,12 @@ public class EventEditView extends RelativeLayout {
          */
         public String getTitle() {
             return title;
+        }
+        public String getPerson() {
+            return person;
+        }
+        public String getPlace() {
+            return place;
         }
 
         /**

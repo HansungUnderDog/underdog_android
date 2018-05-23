@@ -3,15 +3,18 @@ package cse.underdog.org.underdog_client;
 import android.Manifest;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
+import android.provider.UserDictionary;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +33,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +45,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 import cse.underdog.org.underdog_client.etc.EtcActivity;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
@@ -99,11 +105,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private View mDrawer;
     private final HashSet<String> mExcludedCalendarIds = new HashSet<>();
     private boolean mWeatherEnabled, mPendingWeatherEnabled;
+    ContentValues cv = new ContentValues();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setUpPreferences();
+
 
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         //inflater.inflate(R.layout.view_with_merge_tag, this.a);
@@ -156,6 +164,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        Iterator it = cv.keySet().iterator();
+        System.out.println("해즈넥"+it.hasNext());
+        while (it.hasNext()) {
+            System.out.println("ㅋㅋ"+it.next());
+        }
+
     }
 
     @Override
@@ -177,6 +191,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCoordinator.coordinate(mToolbarToggle, mCalendarView, mAgendaView);
         if (checkCalendarPermissions()) {
             loadEvents();
+
+
         } else {
             toggleEmptyView(true);
         }
@@ -295,23 +311,42 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             selection = CalendarContract.Calendars.ACCOUNT_TYPE + "=?";
             selectionArgs = new String[]{String.valueOf(CalendarContract.ACCOUNT_TYPE_LOCAL)};
         }
+
+        /*CursorLoader cl = new CursorLoader(this, CalendarContract.Calendars.CONTENT_URI, CalendarCursor.PROJECTION, selection, selectionArgs,  CalendarContract.Calendars.DEFAULT_SORT_ORDER);*/
+
+
+        /*Uri singleUri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, 0);
+        Log.e("유알아이", singleUri.toString());*/
+
         return new CursorLoader(this,
                 CalendarContract.Calendars.CONTENT_URI,
                 CalendarCursor.PROJECTION, selection, selectionArgs,
                 CalendarContract.Calendars.DEFAULT_SORT_ORDER);
+
+
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+
+
         switch (loader.getId()) {
             case LOADER_CALENDARS:
                 if (data != null && data.moveToFirst()) {
                     mCalendarSelectionView.swapCursor(new CalendarCursor(data), mExcludedCalendarIds);
+                    //EventCursor ec = new EventCursor(data);
+                    for(int i=0; i<data.getColumnCount(); i++) {
+                        Log.e("이벤트커서이름",data.getColumnName(i));
+                        Log.e("이벤트커서",String.valueOf(data.getColumnIndex("_ID")));
+
+                    }
                 }
                 break;
             case LOADER_LOCAL_CALENDAR:
                 if (data == null || data.getCount() == 0) {
                     createLocalCalendar();
+
                 }
                 break;
         }
@@ -334,6 +369,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         CalendarUtils.sWeekStart = sp.getInt(CalendarUtils.PREF_WEEK_START, Calendar.SUNDAY);
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(mWeatherChangeListener);
+
+        Map<String, ?> allEntries = sp.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+            System.out.println("여기다 " + entry.getKey() + ": " + entry.getValue().toString());
+        }
+
+
+        /*System.out.println("로드이벤츠 위에");
+        Iterator<String> it = mExcludedCalendarIds.iterator();
+        System.out.println("해쉬 빈여부"+mExcludedCalendarIds.isEmpty());
+        System.out.println("해스"+it.hasNext());
+        while (it.hasNext()) {
+            System.out.println("해쉬값들" + it.next());
+        }
+
+        System.out.println("로드이벤츠 아래");*/
+
+
     }
 
     private void setUpContentView() {
@@ -422,9 +476,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void loadEvents() {
         getSupportLoaderManager().initLoader(LOADER_CALENDARS, null, this);
         getSupportLoaderManager().initLoader(LOADER_LOCAL_CALENDAR, null, this);
+
         mFabAdd.show();
         mCalendarView.setCalendarAdapter(new CalendarCursorAdapter(this, mExcludedCalendarIds));
         mAgendaView.setAdapter(new AgendaCursorAdapter(this, mExcludedCalendarIds));
+        AgendaCursorAdapter ac = new AgendaCursorAdapter(this, mExcludedCalendarIds);
+
         loadWeather();
     }
 
@@ -444,7 +501,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void createLocalCalendar() {
         String name = getString(R.string.default_calendar_name);
-        ContentValues cv = new ContentValues();
         cv.put(CalendarContract.Calendars.ACCOUNT_NAME, BuildConfig.APPLICATION_ID);
         cv.put(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
         cv.put(CalendarContract.Calendars.NAME, name);
@@ -463,6 +519,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                                         CalendarContract.ACCOUNT_TYPE_LOCAL)
                                 .build()
                         , cv);
+
+
+
     }
 
     @VisibleForTesting
@@ -574,6 +633,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             if (mCalendarView != null) {
                 mCalendarView.reset();
             }
+
             if (mAgendaView != null) {
                 mAgendaView.reset();
             }
@@ -606,6 +666,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mHandler = new DayEventsQueryHandler(context.getContentResolver(), this,
                     excludedCalendarIds);
         }
+
 
         @Override
         protected void loadEvents(long timeMillis) {
@@ -644,6 +705,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         protected void handleQueryComplete(int token, Object cookie, EventCursor cursor) {
             mAgendaCursorAdapter.bindEvents((Long) cookie, cursor);
+
         }
     }
 
@@ -661,6 +723,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         protected void handleQueryComplete(int token, Object cookie, EventCursor cursor) {
             mAdapter.bindEvents((Long) cookie, cursor);
+
+            /*for(int i=0; i<cursor.getColumnCount(); i++) {
+                Log.e("핸들쿼리",cursor.getColumnName(i));
+                Log.e("핸들쿼리 아이디",String.valueOf(cursor.getPosition));
+
+            }*/
+
+            while(cursor.moveToNext()){
+                Log.e("핸들쿼리 아이디",String.valueOf(cursor.getTitle()));
+            }
+
         }
     }
 

@@ -63,6 +63,7 @@ public abstract class EventsQueryHandler extends AsyncQueryHandler {
      */
     public EventsQueryHandler(ContentResolver cr,
                               @NonNull Collection<String> excludedCalendarIds) {
+
         super(cr);
         mExcludedCalendarIds = excludedCalendarIds;
     }

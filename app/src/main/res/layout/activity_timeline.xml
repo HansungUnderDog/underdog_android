@@ -65,6 +65,12 @@
                         android:text="알람"
                         android:id="@+id/alarm_Btn"/>
 
+                    <Button
+                        android:id="@+id/logout_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Logout" />
+
                 </LinearLayout>
 
             </RelativeLayout>

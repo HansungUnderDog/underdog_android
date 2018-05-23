@@ -5,7 +5,6 @@
       <map>
         <entry key="imageWizard">
           <value>
-<<<<<<< HEAD
             <PersistentState>
               <option name="children">
                 <map>
@@ -17,12 +16,27 @@
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="foregroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="180" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="C:\Users\_miu_minu\Desktop\underdog_design\app_logo.png" />
+                                      <entry key="foregroundImage" value="C:\Users\_miu_minu\Desktop\underdog_design\guide1.png" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />
-                                      <entry key="outputName" value="app_logo" />
+                                      <entry key="outputName" value="guide1" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -36,9 +50,6 @@
                 </map>
               </option>
             </PersistentState>
-=======
-            <PersistentState />
->>>>>>> 095d8c9379fd86aa12136d2445cd81437e3efaab
           </value>
         </entry>
       </map>

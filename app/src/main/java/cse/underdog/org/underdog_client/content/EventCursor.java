@@ -18,7 +18,9 @@ public class EventCursor extends CursorWrapper {
             CalendarContract.Events.TITLE,
             CalendarContract.Events.DTSTART,
             CalendarContract.Events.DTEND,
-            CalendarContract.Events.ALL_DAY
+            CalendarContract.Events.ALL_DAY,
+            CalendarContract.Events.HAS_ATTENDEE_DATA,
+            CalendarContract.Events.EVENT_LOCATION
     };
     private static final int PROJECTION_INDEX_ID = 0;
     private static final int PROJECTION_INDEX_CALENDAR_ID = 1;
@@ -26,6 +28,8 @@ public class EventCursor extends CursorWrapper {
     private static final int PROJECTION_INDEX_DTSTART = 3;
     private static final int PROJECTION_INDEX_DTEND = 4;
     private static final int PROJECTION_INDEX_ALL_DAY = 5;
+    private static final int PROJECTION_INDEX_HAS_ATTENDEE_DATA = 6;
+    private static final int PROJECTION_INDEX_EVENT_LOCATION = 7;
 
     public EventCursor(Cursor cursor) {
         super(cursor);
@@ -84,4 +88,7 @@ public class EventCursor extends CursorWrapper {
     public boolean getAllDay() {
         return getInt(PROJECTION_INDEX_ALL_DAY) == 1;
     }
+
+    public String getPerson(){return getString(PROJECTION_INDEX_HAS_ATTENDEE_DATA);}
+    public String getPlace(){return getString(PROJECTION_INDEX_EVENT_LOCATION);}
 }
