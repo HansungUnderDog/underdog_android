@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
-// This Class need Test
+// This Class need Test //complete
 public class SttService {
     private Intent i;
     private final int REQ_CODE_SPEECH_INPUT = 100;

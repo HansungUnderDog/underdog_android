@@ -29,5 +29,4 @@ public class ViewUtils {
         ta.recycle();
         return colors;
     }
-
 }

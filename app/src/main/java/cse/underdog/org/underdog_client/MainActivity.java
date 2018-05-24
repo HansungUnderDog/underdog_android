@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setUpPreferences();
         pref = getSharedPreferences("schedules", MODE_PRIVATE);
@@ -776,7 +777,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             if (mDrawerLayout.isDrawerOpen(mDrawer)) {
                 mDrawerLayout.closeDrawer(mDrawer);
             } else {
-                this.finish();
+                Intent intent = new Intent(this, TimelineActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         } else {
             backPressedTime = tempTime;
