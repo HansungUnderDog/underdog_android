@@ -51,6 +51,8 @@ public class MemoActivity extends AppCompatActivity {
     private static final int DELETE_ID = Menu.FIRST;
     private int mNoteNumber = 1;
     private NetworkService service;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
     ArrayList<MemoInfo> memos= new ArrayList<MemoInfo>();
 
     ListView list;
@@ -148,10 +150,6 @@ public class MemoActivity extends AppCompatActivity {
         list.setAdapter(memoAdapter);
     }
 
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -205,5 +203,17 @@ public class MemoActivity extends AppCompatActivity {
                 Log.e("fail", t.getMessage());
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            this.finish();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

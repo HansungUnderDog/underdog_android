@@ -40,6 +40,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String SEPARATOR = ",";
     private static final int LOADER_CALENDARS = 0;
     private static final int LOADER_LOCAL_CALENDAR = 1;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
     private final SharedPreferences.OnSharedPreferenceChangeListener mWeatherChangeListener =
             new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -270,14 +273,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 .unregisterOnSharedPreferenceChangeListener(mWeatherChangeListener);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(mDrawer)) {
-            mDrawerLayout.closeDrawer(mDrawer);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -743,6 +738,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         public CalendarQueryHandler(ContentResolver cr) {
             super(cr);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            if (mDrawerLayout.isDrawerOpen(mDrawer)) {
+                mDrawerLayout.closeDrawer(mDrawer);
+            } else {
+                this.finish();
+            }
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
     }
 }

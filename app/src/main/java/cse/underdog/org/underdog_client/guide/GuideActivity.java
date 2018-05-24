@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.pm10.library.CircleIndicator;
 
@@ -15,6 +16,8 @@ import cse.underdog.org.underdog_client.login.LoginActivity;
 
 public class GuideActivity extends AppCompatActivity {
     Button startBtn;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,20 @@ public class GuideActivity extends AppCompatActivity {
         public int getCount()
         {
             return 5;
+        }
+    }
+
+    public void onBackPressed() {
+
+
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            this.finish();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
     }
 }

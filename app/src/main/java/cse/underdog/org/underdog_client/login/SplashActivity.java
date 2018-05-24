@@ -21,8 +21,12 @@ import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private final int SPLASH_DISPLAY_LENGTH = 1500;
+//    private final int SPLASH_DISPLAY_LENGTH = 3000;
     private NetworkService service;
+    private Handler handler;
+
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +35,24 @@ public class SplashActivity extends AppCompatActivity {
 
         service = ApplicationController.getInstance().getNetworkService();
 
-        new Handler().postDelayed(new Runnable(){
+        /*new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                /* 다음액티비티를 실행하고 로딩화면을 죽인다.*/
-                Intent mainIntent = new Intent(SplashActivity.this,GuideActivity.class);
-                SplashActivity.this.startActivity(mainIntent);
+                *//* 다음액티비티를 실행하고 로딩화면을 죽인다.*//*
+                Intent intent = new Intent(SplashActivity.this,GuideActivity.class);
+                SplashActivity.this.startActivity(intent);
                 SplashActivity.this.finish();
             }
-        }, SPLASH_DISPLAY_LENGTH);
+        }, SPLASH_DISPLAY_LENGTH);*/
 
-        Handler handler = new Handler() {
+        handler = new Handler() {
             public void handleMessage(Message msg) {
                 SharedPreferences userInfo;
                 userInfo = getSharedPreferences("users", MODE_PRIVATE);
                 String remainEmail = userInfo.getString("email", null);
                 if (remainEmail == null) {
-                    Intent intent = new Intent(getBaseContext(), LoginActivity.class); //LoginActivity 로 다시 바꿔야함
-                    startActivity(intent);
+                    Intent mintent = new Intent(getBaseContext(), GuideActivity.class); //LoginActivity 로 다시 바꿔야함
+                    startActivity(mintent);
                     finish();
                 } else {
                     checkLogin(remainEmail, userInfo.getString("pwd", null));
@@ -103,5 +107,18 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onBackPressed() {
+
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            this.finish();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

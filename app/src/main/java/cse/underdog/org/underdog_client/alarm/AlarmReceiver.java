@@ -88,13 +88,14 @@ public class AlarmReceiver extends BroadcastReceiver{
         Notification.Builder note = new Notification.Builder(context);
         PendingIntent i=PendingIntent.getActivity(context, 0,new Intent(context, MainActivity.class),0);
 
-        note.setTicker("문자가 수신됨");
+        note.setTicker("스케쥴 알림");
         note.setAutoCancel(true);
-        note.setSmallIcon(R.mipmap.ic_launcher);
+        note.setSmallIcon(R.mipmap.app_logo_round);
         note.setNumber(1);
-        note.setContentTitle("메시지가 수신됨");
-        note.setContentText("번째 수신된 메시지 입니다.");
+        note.setContentTitle("알림입니다.");
+        note.setContentText("스케쥴 알림입니다.");
         note.setContentIntent(i);
+
 
         mgr.notify(1, note.getNotification());
 

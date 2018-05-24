@@ -1,25 +1,21 @@
 package cse.underdog.org.underdog_client.etc;
 
-import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.api.services.youtube.YouTube;
-import com.google.common.io.BaseEncoding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,8 +25,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +38,9 @@ import cse.underdog.org.underdog_client.speech.SttService;
 import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 
 public class EtcActivity extends AppCompatActivity{
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+
     private String youtubeAddress = null;
     String result;
     SttService stt;
@@ -275,6 +272,19 @@ public class EtcActivity extends AppCompatActivity{
             System.out.println("서치" + search);
         }else{
             //System.out.println("엘스"+search);
+        }
+    }
+    public void onBackPressed() {
+
+
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            this.finish();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
     }
 }

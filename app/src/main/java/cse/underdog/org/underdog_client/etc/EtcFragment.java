@@ -2,7 +2,6 @@ package cse.underdog.org.underdog_client.etc;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,19 +9,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.StringTokenizer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.speech.SttService;
-import cse.underdog.org.underdog_client.speech.TtsService;
 /*
 public class EtcFragment extends Fragment {
     @Override

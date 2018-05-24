@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="cse.underdog.org.underdog_client">
 
-    <!-- Required by Calendar Provider -->
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".application.ApplicationController"
@@ -25,51 +25,66 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".login.LoginActivity"
-            android:label="login" />
+            android:label="login"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".login.SignupActivity"
-            android:label="signup" />
-        <activity android:name=".TabActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".etc.EtcActivity" />
-        <activity android:name=".timeline.TimelineActivity" />
-        <activity android:name=".memo.MemoActivity" />
-        <activity android:name=".login.SplashActivity">
+            android:label="signup"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TabActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".etc.EtcActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".timeline.TimelineActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".memo.MemoActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".login.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".EditActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".memo.CreateNote"
+            android:label="@string/title_activity_create_note"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".memo.View_Note"
+            android:label="@string/title_activity_information"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".memo.Edit_Note"
+            android:label="@string/title_activity_edit__note"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".login.MainActivity_2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".guide.GuideActivity"
+            android:screenOrientation="portrait"/>
 
-        <receiver android:name=".alarm.AlarmReceiver" />
-        <!--
-android:exported="true">
+        <receiver android:name=".alarm.AlarmReceiver"/>
+        <receiver android:name=".alarm.CallAlarmReceiver">
             <Intent-filter>
-                <action android:name="android.intent.action.HEADSET_PLUG" />
-            </Intent-filter>>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </Intent-filter>
         </receiver>
-        -->
         <receiver android:name=".weather.WeatherSyncAlarmReceiver" />
 
         <service android:name=".weather.WeatherSyncService" />
+        <service android:name=".alarm.CallingService" />
 
-        <activity
-            android:name=".memo.CreateNote"
-            android:label="@string/title_activity_create_note" />
-        <activity
-            android:name=".memo.View_Note"
-            android:label="@string/title_activity_information" />
-        <activity
-            android:name=".memo.Edit_Note"
-            android:label="@string/title_activity_edit__note" />
-        <activity android:name=".login.MainActivity_2" />
-        <activity android:name=".guide.GuideActivity"></activity>
     </application>
 
 </manifest>
