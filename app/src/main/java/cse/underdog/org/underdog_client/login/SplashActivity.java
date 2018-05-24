@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import cse.underdog.org.underdog_client.LoginUserInfo;
+import cse.underdog.org.underdog_client.MainActivity;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.application.ApplicationController;
 import cse.underdog.org.underdog_client.guide.GuideActivity;
@@ -83,7 +84,7 @@ public class SplashActivity extends AppCompatActivity {
                         //sharedPreferences에 유저정보 객체로 저장
 
 
-                        Intent intent = new Intent(getBaseContext(), TimelineActivity.class);
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
 
 
                         //activity stack 비우고 새로 시작하기

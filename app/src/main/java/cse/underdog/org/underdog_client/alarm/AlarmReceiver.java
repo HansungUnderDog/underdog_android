@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
-
 import java.util.Calendar;
 
 import cse.underdog.org.underdog_client.MainActivity;

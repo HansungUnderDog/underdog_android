@@ -156,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.commit();
 
                         System.out.println("hihihihi");
-                        Intent intent = new Intent(getBaseContext(), TimelineActivity.class);
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
                         startActivity(intent);
                         /*Fragment fragment = new Fragment();
                         FragmentManager fragmentManager = getSupportFragmentManager();

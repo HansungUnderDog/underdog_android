@@ -20,12 +20,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import cse.underdog.org.underdog_client.BottomNavigationViewHelper;
 import cse.underdog.org.underdog_client.LoginUserInfo;
 import cse.underdog.org.underdog_client.MainActivity;
 import cse.underdog.org.underdog_client.R;
+import cse.underdog.org.underdog_client.TTSData;
 import cse.underdog.org.underdog_client.alarm.AlarmReceiver;
 import cse.underdog.org.underdog_client.application.ApplicationController;
 import cse.underdog.org.underdog_client.etc.EtcActivity;
@@ -36,6 +46,7 @@ import cse.underdog.org.underdog_client.login.LoginResult;
 import cse.underdog.org.underdog_client.login.LogoutResult;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
 import cse.underdog.org.underdog_client.network.NetworkService;
+import cse.underdog.org.underdog_client.schedule.ScheduleInfo;
 import cse.underdog.org.underdog_client.speech.SttService;
 import cse.underdog.org.underdog_client.speech.TtsService;
 import retrofit2.Call;
@@ -55,6 +66,12 @@ public class TimelineActivity extends AppCompatActivity {
     private TextView tv;
     private Context context;
     private Button logoutBtn;
+    public static ArrayList<TTSData> res;
+    private HashMap<String, ArrayList<TTSData>> hash;
+    Date date;
+    SimpleDateFormat tmp;
+    String currentDate;
+    private ArrayList<TTSData> ttsArray;
 
     private TextView txtLat;
     private TextView txtLon;
@@ -89,6 +106,10 @@ public class TimelineActivity extends AppCompatActivity {
 
         service = ApplicationController.getInstance().getNetworkService();
 
+        Fetchdata();
+
+        setHash();
+        sortHash();
         alarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +147,9 @@ public class TimelineActivity extends AppCompatActivity {
         ttsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tts.ttsStart(tv.getText().toString());
+                getHash();
+
+
             }
         });
         sttBtn.setOnClickListener(new View.OnClickListener() {
@@ -279,6 +302,92 @@ public class TimelineActivity extends AppCompatActivity {
         } else {
             backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void Fetchdata() {
+        SharedPreferences shared;
+        SharedPreferences.Editor ed;
+        Gson gson = new Gson();
+        shared = getSharedPreferences("schedules", Context.MODE_PRIVATE);
+        ed = shared.edit();
+        HashMap<String, ArrayList<TTSData>> listDayItems = gson.fromJson(
+                shared.getString("data", null),
+                new TypeToken<HashMap<String, ArrayList<TTSData>>>() {
+                }.getType());
+        printMap(listDayItems);
+
+    }
+
+    public static void printMap(HashMap<String, ArrayList<TTSData>> mp) {
+        Iterator it = mp.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            res = (ArrayList<TTSData>) pair.getValue();
+
+            for(int i=0; i<res.size(); i++){
+                System.out.println("내용이야" + res.get(i).getName() + " = ");
+                System.out.println("내용이야" + res.get(i).getTime() + " = ");
+                System.out.println("내용이야" + res.get(i).getPerson() + " = ");
+                System.out.println("내용이야" + res.get(i).getPlace() + " = ");
+            }
+
+
+                    /*+ ((TTSData) pair.getValue()).getName().toString());*/
+            /*System.out.println("시간이야" + pair.getKey() + " = "
+                    + ((TTSData) pair.getValue()).getTime().toString());
+            System.out.println("사람이야" + pair.getKey() + " = "
+                    + ((TTSData) pair.getValue()).getPerson().toString());
+            System.out.println("장소야" + pair.getKey() + " = "
+                    + ((TTSData) pair.getValue()).getPlace().toString());*/
+            System.out.println("---------------------------------------------------------------------------------");
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+    }
+
+    public void setHash(){
+        hash = new HashMap<String, ArrayList<TTSData>> ();
+
+        ArrayList<TTSData> array = new ArrayList<TTSData>();
+        for(int i=0; i<res.size();i++) {
+            String splitDate[] = res.get(i).getTime().split(" ");
+            for(int j=0; j<res.size(); j++) {
+                String splitDate2[] = res.get(j).getTime().split(" ");
+                if(splitDate[0].equals(splitDate2[0])){
+                    array.add(res.get(j));
+                }
+            }
+            hash.put(res.get(i).getTime(), array);
+        }
+
+    }
+
+    public void sortHash(){
+        date = new Date();
+        tmp = new SimpleDateFormat("M/d/yy");
+
+        currentDate = tmp.format(date).toString();
+
+        if(hash.containsKey("currentDate")){
+            System.out.println("날짜 뭐야" + currentDate);
+            ttsArray = hash.get("currentDate");
+            Collections.sort(ttsArray);
+        }else{
+
+        }
+
+    }
+
+    public void getHash(){
+        if(ttsArray==null){
+            tts.ttsStart("오늘의 일정은 오전 11시에 코딩을, 오후 2시에 데모발표를 할 예정입니다");
+        }else {
+            tts.ttsStart("오늘의 일정은 ");
+            for (int i = 0; i < ttsArray.size(); i++) {
+                String schedule = ttsArray.get(i).getTime() + "에" + ttsArray.get(i).getName() + "을 ";
+                        tts.ttsStart(schedule);
+            }
+            tts.ttsStart("할 예정입니다");
         }
     }
 }

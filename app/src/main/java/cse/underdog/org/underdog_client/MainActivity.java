@@ -42,15 +42,22 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import cse.underdog.org.underdog_client.etc.EtcActivity;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
+import cse.underdog.org.underdog_client.schedule.ScheduleInfo;
 import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 import cse.underdog.org.underdog_client.weather.WeatherSyncService;
 import cse.underdog.org.underdog_client.widget.CalendarSelectionView;
@@ -71,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int LOADER_LOCAL_CALENDAR = 1;
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
+    private static SharedPreferences pref;
+    private static SharedPreferences.Editor editor;
+    private static HashMap<String, ArrayList<TTSData>> dataHash = new HashMap<String, ArrayList<TTSData>>();
 
     private final SharedPreferences.OnSharedPreferenceChangeListener mWeatherChangeListener =
             new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -114,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setUpPreferences();
-
+        pref = getSharedPreferences("schedules", MODE_PRIVATE);
 
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         //inflater.inflate(R.layout.view_with_merge_tag, this.a);
@@ -727,10 +737,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             }*/
 
-            while(cursor.moveToNext()){
-                Log.e("핸들쿼리 아이디",String.valueOf(cursor.getTitle()));
-            }
 
+            ArrayList<TTSData> arrayList = new ArrayList<TTSData>();
+            while(cursor.moveToNext()){
+               /* Log.e("핸들쿼리 아이디",String.valueOf(cursor.getTitle()));
+                Log.e("핸들쿼리 시간",String.valueOf(DateFormat.getInstance().format(cursor.getDateTimeStart())));
+                Log.e("핸들쿼리 사람",String.valueOf(cursor.getPerson()));
+                Log.e("핸들쿼리 장소",String.valueOf(cursor.getPlace()));
+                Log.e("-----------",String.valueOf("------------------------------"));*/
+                TTSData td = new TTSData(cursor.getTitle(),DateFormat.getInstance().format(cursor.getDateTimeStart()),cursor.getPerson(),cursor.getPlace());
+                arrayList.add(td);
+            }
+            dataHash.put("data", arrayList);
+
+            editor = pref.edit();
+
+            Gson gson = new Gson();
+            String json = gson.toJson(dataHash);
+
+            editor.putString("data", json);
+            editor.commit();
         }
     }
 
