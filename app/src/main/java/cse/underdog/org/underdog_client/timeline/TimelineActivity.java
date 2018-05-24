@@ -36,6 +36,7 @@ import cse.underdog.org.underdog_client.login.LoginResult;
 import cse.underdog.org.underdog_client.login.LogoutResult;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
 import cse.underdog.org.underdog_client.network.NetworkService;
+import cse.underdog.org.underdog_client.speech.SttActivity;
 import cse.underdog.org.underdog_client.speech.SttService;
 import cse.underdog.org.underdog_client.speech.TtsService;
 import retrofit2.Call;
@@ -66,15 +67,18 @@ public class TimelineActivity extends AppCompatActivity {
     private NetworkService service;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+    private Intent sttIntent;
 
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        sttIntent = new Intent(this, SttActivity.class);
         context = this.getApplicationContext();
         sttBtn = (Button) findViewById(R.id.stt_btn);
         ttsBtn = (Button) findViewById(R.id.tts_btn);
@@ -132,7 +136,8 @@ public class TimelineActivity extends AppCompatActivity {
         sttBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(stt.getIntent(), stt.getREQ());
+//                startActivityForResult(stt.getIntent(), stt.getREQ());
+                startActivityForResult(sttIntent, 100);
             }
         });
 
@@ -224,8 +229,10 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        result = stt.getResult(requestCode, resultCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
+//        result = stt.getResult(requestCode, resultCode, resultCode, data);
+//        tv.setText(result);
+        result = SttActivity.RESULT;
         tv.setText(result);
     }
 
@@ -252,6 +259,7 @@ public class TimelineActivity extends AppCompatActivity {
                         editor.commit();
 
                         Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
                 }else{
@@ -275,7 +283,7 @@ public class TimelineActivity extends AppCompatActivity {
         long intervalTime = tempTime - backPressedTime;
 
         if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
-            this.finish();
+            finish();
         } else {
             backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "뒤로 가기 키를 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();

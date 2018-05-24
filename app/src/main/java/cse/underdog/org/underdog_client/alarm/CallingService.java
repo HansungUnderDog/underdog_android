@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cse.underdog.org.underdog_client.R;
@@ -20,7 +21,7 @@ public class CallingService extends Service{
     public static final String EXTRA_CALL_NUMBER = "call_number";
     protected View rootView;
 
-    @InjectView(R.id.tv_call_number)
+    @BindView(R.id.tv_call_number)
     TextView tv_call_number;
     String call_number;
     WindowManager.LayoutParams params;
@@ -52,7 +53,7 @@ public class CallingService extends Service{
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         rootView = layoutInflater.inflate(R.layout.call_popup_top, null);
-        ButterKnife.inject(this, rootView);
+        ButterKnife.bind(this, rootView);
         setDraggable();
     }
 
@@ -117,6 +118,4 @@ public class CallingService extends Service{
     public void removePopup() {
         if (rootView != null && windowManager != null) windowManager.removeView(rootView);
     }
-
 }
-
