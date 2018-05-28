@@ -46,11 +46,8 @@ import cse.underdog.org.underdog_client.login.LoginResult;
 import cse.underdog.org.underdog_client.login.LogoutResult;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
 import cse.underdog.org.underdog_client.network.NetworkService;
-<<<<<<< HEAD
 import cse.underdog.org.underdog_client.schedule.ScheduleInfo;
-=======
 import cse.underdog.org.underdog_client.speech.SttActivity;
->>>>>>> 798140e0c61b49716e866f5d8997cba9dbc243e9
 import cse.underdog.org.underdog_client.speech.SttService;
 import cse.underdog.org.underdog_client.speech.TtsService;
 import retrofit2.Call;

@@ -32,7 +32,7 @@ public class SttActivity extends AppCompatActivity implements RecognitionListene
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
     private String LOG_TAG = "VoiceRecognitionActivity";
-    public static String RESULT;
+    public static String RESULT = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class SttActivity extends AppCompatActivity implements RecognitionListene
                             (SttActivity.this,
                                     new String[]{Manifest.permission.RECORD_AUDIO},
                                     REQUEST_RECORD_PERMISSION);
-                    speech.startListening(recognizerIntent);
+//                    speech.startListening(recognizerIntent);
                 } else {
                     progressBar.setIndeterminate(false);
                     progressBar.setVisibility(View.INVISIBLE);
@@ -84,7 +84,7 @@ public class SttActivity extends AppCompatActivity implements RecognitionListene
         switch (requestCode) {
             case REQUEST_RECORD_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    speech.startListening(recognizerIntent);
+                    speech.startListening(recognizerIntent);
                 } else {
                     Toast.makeText(SttActivity.this, "Permission Denied!", Toast
                             .LENGTH_SHORT).show();

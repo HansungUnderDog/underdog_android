@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,17 +16,15 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cse.underdog.org.underdog_client.R;
 //import cse.underdog.org.underdog_client.R;
 
 public class CallingService extends Service{
     public static final String EXTRA_CALL_NUMBER = "call_number";
     protected View rootView;
 
-<<<<<<< HEAD
     //@InjectView(R.id.tv_call_number)
-=======
     @BindView(R.id.tv_call_number)
->>>>>>> 798140e0c61b49716e866f5d8997cba9dbc243e9
     TextView tv_call_number;
     String call_number;
     WindowManager.LayoutParams params;
@@ -56,13 +55,10 @@ public class CallingService extends Service{
                 PixelFormat.TRANSLUCENT);
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-<<<<<<< HEAD
         //rootView = layoutInflater.inflate(R.layout.call_popup_top, null);
         //ButterKnife.inject(this, rootView);
-=======
         rootView = layoutInflater.inflate(R.layout.call_popup_top, null);
         ButterKnife.bind(this, rootView);
->>>>>>> 798140e0c61b49716e866f5d8997cba9dbc243e9
         setDraggable();
     }
 
@@ -99,6 +95,7 @@ public class CallingService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("전화알림", "전화왔습니다.");
         windowManager.addView(rootView, params);
         setExtra(intent);
         if (!TextUtils.isEmpty(call_number)) {
