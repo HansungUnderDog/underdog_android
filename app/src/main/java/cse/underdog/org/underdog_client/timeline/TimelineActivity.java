@@ -46,11 +46,8 @@ import cse.underdog.org.underdog_client.login.LoginResult;
 import cse.underdog.org.underdog_client.login.LogoutResult;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
 import cse.underdog.org.underdog_client.network.NetworkService;
-<<<<<<< HEAD
 import cse.underdog.org.underdog_client.schedule.ScheduleInfo;
-=======
 import cse.underdog.org.underdog_client.speech.SttActivity;
->>>>>>> 798140e0c61b49716e866f5d8997cba9dbc243e9
 import cse.underdog.org.underdog_client.speech.SttService;
 import cse.underdog.org.underdog_client.speech.TtsService;
 import retrofit2.Call;
@@ -72,6 +69,8 @@ public class TimelineActivity extends AppCompatActivity {
     private Button logoutBtn;
     public static ArrayList<TTSData> res;
     private HashMap<String, ArrayList<TTSData>> hash;
+    private HashMap<Integer, ArrayList<TTSData>> currentHash;
+    private ArrayList<TTSData> sortList;
     Date date;
     SimpleDateFormat tmp;
     String currentDate;
@@ -154,7 +153,7 @@ public class TimelineActivity extends AppCompatActivity {
         ttsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getHash();
+                //getHash();
 
 
             }
@@ -362,43 +361,67 @@ public class TimelineActivity extends AppCompatActivity {
         ArrayList<TTSData> array = new ArrayList<TTSData>();
         for(int i=0; i<res.size();i++) {
             String splitDate[] = res.get(i).getTime().split(" ");
+            for(int k=0; k<splitDate.length; k++ ){
+                System.out.println("splitData " + k + " 번째 " + splitDate[k] + "확인");
+            }
+            String date1 = splitDate[0]+splitDate[1]+splitDate[2];
             for(int j=0; j<res.size(); j++) {
                 String splitDate2[] = res.get(j).getTime().split(" ");
-                if(splitDate[0].equals(splitDate2[0])){
+                String date2 = splitDate2[0]+splitDate2[1]+splitDate2[2];
+                for(int l=0; l<splitDate2.length; l++ ){
+                    System.out.println("splitData2 " + l + " 번째 " + splitDate[l] + "확인");
+                }
+                if(date1.equals(date2)){
                     array.add(res.get(j));
                 }
             }
-            hash.put(res.get(i).getTime(), array);
+            String key = res.get(i).getTime();
+            String splitedKey[] = key.split(" ");
+            String keyDate = splitedKey[0]+splitedKey[1]+splitedKey[2];
+            hash.put(keyDate, array);
         }
+        System.out.println("해쉬밸류" + hash.keySet());
 
     }
 
     public void sortHash(){
         date = new Date();
-        tmp = new SimpleDateFormat("M/d/yy");
+        tmp = new SimpleDateFormat("yy.M.dd");
 
-        currentDate = tmp.format(date).toString();
-
-        if(hash.containsKey("currentDate")){
+        currentDate = tmp.format(date).toString()+".";
+        System.out.println("오늘날짜"+currentDate);
+        if(hash.containsKey(currentDate)){
             System.out.println("날짜 뭐야" + currentDate);
-            ttsArray = hash.get("currentDate");
-            Collections.sort(ttsArray);
-        }else{
+            System.out.println("해쉬사이즈 몇인데 여긴 대? " + hash.get(currentDate).size());
 
+            sortList = hash.get(currentDate);
+            Collections.sort(sortList);
+
+            tts.ttsStart("오늘의 일정은 ");
+            for(int i=0; i<sortList.size(); i++){
+                String schedule = sortList.get(i).getTime() + "에" + sortList.get(i).getName() + "을 ";
+                tts.ttsStart(schedule);
+            }
+            tts.ttsStart("할 예정입니다");
+
+
+        }else{
+            tts.ttsStart("오늘의 일정은 없습니다");
         }
+
 
     }
 
-    public void getHash(){
+    /*public void getHash(){
         if(ttsArray==null){
-            tts.ttsStart("오늘의 일정은 오전 11시에 코딩을, 오후 2시에 데모발표를 할 예정입니다");
+            tts.ttsStart("오늘의 일정은 없습니다");
         }else {
             tts.ttsStart("오늘의 일정은 ");
-            for (int i = 0; i < ttsArray.size(); i++) {
-                String schedule = ttsArray.get(i).getTime() + "에" + ttsArray.get(i).getName() + "을 ";
+            for (int i = 0; i < currentHash.size(); i++) {
+                String schedule = currentHash.get(i).get(i).getTime() + "에" + ttsArray.get(i).getName() + "을 ";
                         tts.ttsStart(schedule);
             }
             tts.ttsStart("할 예정입니다");
         }
-    }
+    }*/
 }

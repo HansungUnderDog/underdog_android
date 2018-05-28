@@ -88,11 +88,8 @@
         <receiver android:name=".alarm.AlarmReceiver" />
         <receiver android:name=".alarm.CallAlarmReceiver">
             <intent-filter>
-<<<<<<< HEAD
                 <action android:name="android.intent.action.PHONE_STATE"/>
-=======
                 <action android:name="android.intent.action.PHONE_STATE" />
->>>>>>> 798140e0c61b49716e866f5d8997cba9dbc243e9
             </intent-filter>
         </receiver>
         <receiver android:name=".weather.WeatherSyncAlarmReceiver" />
