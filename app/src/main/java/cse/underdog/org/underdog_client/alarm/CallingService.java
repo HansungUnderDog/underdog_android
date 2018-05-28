@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,7 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cse.underdog.org.underdog_client.R;
+<<<<<<< HEAD
 import retrofit2.http.HEAD;
+=======
+>>>>>>> 4e4070895770602b82f5848212d4a62cf4c5238c
 //import cse.underdog.org.underdog_client.R;
 
 public class CallingService extends Service{
@@ -95,6 +99,7 @@ public class CallingService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("전화알림", "전화왔습니다.");
         windowManager.addView(rootView, params);
         setExtra(intent);
         if (!TextUtils.isEmpty(call_number)) {

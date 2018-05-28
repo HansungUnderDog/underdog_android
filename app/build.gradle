@@ -44,4 +44,5 @@ dependencies {
     implementation 'com.google.apis:google-api-services-youtube:v3-rev178-1.22.0'
     implementation 'com.pm10:indicator:1.0.2'
     implementation project(':jsoup-1.11.3')
+    implementation 'com.github.quivr:android-week-view:2.0.2'
 }

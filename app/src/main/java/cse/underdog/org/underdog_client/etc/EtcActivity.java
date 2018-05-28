@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.api.services.youtube.YouTube;
@@ -34,6 +33,7 @@ import cse.underdog.org.underdog_client.BottomNavigationViewHelper;
 import cse.underdog.org.underdog_client.MainActivity;
 import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
+import cse.underdog.org.underdog_client.speech.SttActivity;
 import cse.underdog.org.underdog_client.speech.SttService;
 import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 
@@ -52,26 +52,20 @@ public class EtcActivity extends AppCompatActivity{
     @BindView(R.id.musicBtn)
     Button musicButton;
 
-    @BindView(R.id.weatherBtn)
-    Button weatherButton;
-
     @BindView(R.id.goBtn1)
     Button goButton1;
 
     @BindView(R.id.goBtn2)
     Button goButton2;
 
-    @BindView(R.id.goBtn3)
-    Button goButton3;
 
-    @BindView(R.id.tv)
-    TextView tv;
 
     private static final String PROPERTIES_FILENAME = "youtube.properties";
 
     private static final long NUMBER_OF_VIDEOS_RETURNED = 1;
 
     private static YouTube youtube;
+    private Intent sttIntent;
 
 
 
@@ -82,13 +76,14 @@ public class EtcActivity extends AppCompatActivity{
         setContentView(R.layout.activity_etc);
 
         ButterKnife.bind(this);
+        sttIntent = new Intent(this, SttActivity.class);
 
         stt = new SttService();
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(stt.getIntent(), stt.getREQ());
+                startActivityForResult(sttIntent, 100);
             }
         });
 
@@ -99,12 +94,6 @@ public class EtcActivity extends AppCompatActivity{
             }
         });
 
-        weatherButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(stt.getIntent(), stt.getREQ());
-            }
-        });
 
         goButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,7 +242,7 @@ public class EtcActivity extends AppCompatActivity{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        result = stt.getResult(requestCode, resultCode, resultCode, data);
+        result = SttActivity.RESULT;
         //int count=0;
         //String search="";
         if(result.contains("검색")){

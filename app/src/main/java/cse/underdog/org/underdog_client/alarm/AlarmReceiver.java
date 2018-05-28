@@ -91,8 +91,8 @@ public class AlarmReceiver extends BroadcastReceiver{
         note.setAutoCancel(true);
         note.setSmallIcon(R.mipmap.app_logo_round);
         note.setNumber(1);
-        note.setContentTitle("알림입니다.");
-        note.setContentText("스케쥴 알림입니다.");
+        note.setContentTitle("오전 11시 코딩 일정이 있습니다.");
+        note.setContentText("미리알림");
         note.setContentIntent(i);
 
 
