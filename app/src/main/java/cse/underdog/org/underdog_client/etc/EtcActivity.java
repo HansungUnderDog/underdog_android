@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,11 +36,13 @@ import cse.underdog.org.underdog_client.R;
 import cse.underdog.org.underdog_client.memo.MemoActivity;
 import cse.underdog.org.underdog_client.speech.SttActivity;
 import cse.underdog.org.underdog_client.speech.SttService;
+import cse.underdog.org.underdog_client.speech.ThreadControl;
 import cse.underdog.org.underdog_client.timeline.TimelineActivity;
 
 public class EtcActivity extends AppCompatActivity{
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
+    private Thread th;
 
     private String youtubeAddress = null;
     String result;
@@ -68,7 +71,6 @@ public class EtcActivity extends AppCompatActivity{
     private Intent sttIntent;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
@@ -77,13 +79,61 @@ public class EtcActivity extends AppCompatActivity{
 
         ButterKnife.bind(this);
         sttIntent = new Intent(this, SttActivity.class);
-
-        stt = new SttService();
+        search = "";
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(sttIntent, 100);
+                th = new Thread(new Runnable() {
+                    @Override
+                    synchronized public void run() {
+                        startActivityForResult(sttIntent, 100);
+                        try {
+                            Log.e("쓰레드안wait전","쓰레드안wait전");
+                            wait();
+                            Log.e("쓰레드안wait후후","쓰레드안wait후후");
+                        } catch (InterruptedException e) {
+                            try {
+                                youtubeAddress = getAddress();
+                                Bundle bundle = new Bundle();
+                                System.out.println("서치에서위" + youtubeAddress);
+                                bundle.putString("search", youtubeAddress);
+                                System.out.println("서치에서아래" + youtubeAddress);
+                                Fragment musicFragment = new MusicFragment();
+                                musicFragment = new MusicFragment();
+                                musicFragment.setArguments(bundle);
+                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.etcLayout, musicFragment, musicFragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                            } catch (IOException e1) {
+                                e.printStackTrace();
+                            } catch (JSONException e1) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("유튜브 주소" + youtubeAddress);
+                        }
+
+                        /*try {
+                            youtubeAddress = getAddress();
+                            Bundle bundle = new Bundle();
+                            System.out.println("서치에서위" + youtubeAddress);
+                            bundle.putString("search", youtubeAddress);
+                            System.out.println("서치에서아래" + youtubeAddress);
+                            Fragment musicFragment = new MusicFragment();
+                            musicFragment = new MusicFragment();
+                            musicFragment.setArguments(bundle);
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.etcLayout, musicFragment, musicFragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("유튜브 주소" + youtubeAddress);*/
+                    }
+                });
+                th.start();
             }
         });
 
@@ -116,36 +166,7 @@ public class EtcActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 //View search = getLayoutInflater().inflate(R.layout.fragment_etc, null);
-
-                new Thread(){
-                    public void run(){
-                        System.out.println("쓰레드안에서 유튜브위");
-                        try {
-                            System.out.println("쓰레드 안에서 유튜브 어드레으 실행됨?");
-                            youtubeAddress = getAddress();
-                            Bundle bundle = new Bundle();
-                            System.out.println("서치에서위" + youtubeAddress);
-                            bundle.putString("search", youtubeAddress);
-                            System.out.println("서치에서아래" + youtubeAddress);
-                            Fragment musicFragment = new MusicFragment();
-                            musicFragment = new MusicFragment();
-                            musicFragment.setArguments(bundle);
-                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.etcLayout, musicFragment, musicFragment.getClass().getSimpleName()).addToBackStack(null).commit();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println("쓰레드안에서 유튜브아래");
-                        System.out.println("유튜브 주소" + youtubeAddress);
-                    }
-                }.start();
-                System.out.println("쓰레드 아래에서");
-
-
-
+           //     doYoutube();
             }
         });
 
@@ -240,12 +261,17 @@ public class EtcActivity extends AppCompatActivity{
     }*/
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    synchronized public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        result = SttActivity.RESULT;
-        //int count=0;
-        //String search="";
-        if(result.contains("검색")){
+        if (requestCode == 100) {
+            Log.e("inActivityResult", "in requestCode");
+            if (resultCode != RESULT_CANCELED) {
+                Log.e("inActivityResult", "in resultCode");
+                result = data.getStringExtra("result");
+                Log.e("dataResult", result);
+                //int count=0;
+                //String search="";
+                if (result.contains("검색")) {
             /*String tmp[] = result.split("");
             for(int i=0; i<tmp.length; i++){
                 search+=tmp[i];
@@ -256,13 +282,18 @@ public class EtcActivity extends AppCompatActivity{
                 System.out.println("포문"+search);
             }
             System.out.println("이프"+search);*/
-            int idx = result.indexOf("검색");
-            System.out.println("인덱"+idx);
-            search = result.substring(0, idx);
-            System.out.println("서치" + search);
-        }else{
-            //System.out.println("엘스"+search);
-        }
+                    int idx = result.indexOf("검색");
+                    System.out.println("인덱" + idx);
+                    search = result.substring(0, idx);
+                    System.out.println("서치" + search);
+                    th.interrupt();
+                } else {
+                    //System.out.println("엘스"+search);
+                }
+            } else Log.e("inActivityResult", "in resultCode error");
+        } else Log.e("inActivityResult", "in requestCode error");
+
+
     }
     public void onBackPressed() {
 
