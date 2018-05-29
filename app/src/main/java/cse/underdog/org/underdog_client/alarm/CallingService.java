@@ -17,6 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cse.underdog.org.underdog_client.R;
+<<<<<<< HEAD
+import retrofit2.http.HEAD;
+=======
+>>>>>>> 4e4070895770602b82f5848212d4a62cf4c5238c
 //import cse.underdog.org.underdog_client.R;
 
 public class CallingService extends Service{
